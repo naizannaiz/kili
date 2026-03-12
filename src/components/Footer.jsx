@@ -20,23 +20,12 @@ const Footer = () => {
                     </div>
                 </div>
 
-                <div>
-                    <h4 className="text-white font-bold mb-6 uppercase text-xs tracking-widest">Quick Links</h4>
-                    <ul className="space-y-4 text-sm">
-                        <li><Link to="/about" className="hover:text-primary transition-colors">Our Heritage</Link></li>
-                        <li><Link to="/craft" className="hover:text-primary transition-colors">The Craft Process</Link></li>
-                        <li><Link to="/products" className="hover:text-primary transition-colors">Shop Collection</Link></li>
-                        <li><Link to="/impact" className="hover:text-primary transition-colors">Women Empowerment</Link></li>
-                        <li><Link to="/admin" className="hover:text-primary transition-colors">Admin Portal</Link></li>
-                    </ul>
-                </div>
-
-                <div>
-                    <h4 className="text-white font-bold mb-6 uppercase text-xs tracking-widest">Legal</h4>
+                <div className="md:col-span-2">
+                    <h4 className="text-white font-bold mb-6 uppercase text-xs tracking-widest">Legal & Admin</h4>
                     <ul className="space-y-4 text-sm">
                         <li><a href="#" className="hover:text-primary transition-colors">Privacy Policy</a></li>
                         <li><a href="#" className="hover:text-primary transition-colors">Shipping & Returns</a></li>
-                        <li><a href="#" className="hover:text-primary transition-colors">Terms of Service</a></li>
+                        <li><Link to="/admin" className="hover:text-primary transition-colors italic">Admin Portal</Link></li>
                     </ul>
                 </div>
 

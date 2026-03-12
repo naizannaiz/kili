@@ -9,6 +9,7 @@ const AdminDashboard = () => {
     const [products, setProducts] = useState([]);
     const [loading, setLoading] = useState(true);
     const [isModalOpen, setIsModalOpen] = useState(false);
+    const [isFlushModalOpen, setIsFlushModalOpen] = useState(false);
     const [editingProduct, setEditingProduct] = useState(null);
     const [uploading, setUploading] = useState(false);
     const [imagePreview, setImagePreview] = useState('');
@@ -56,7 +57,8 @@ const AdminDashboard = () => {
             .upload(filePath, file);
 
         if (uploadError) {
-            alert('Error uploading image!');
+            console.error('Supabase upload error:', uploadError);
+            alert(`Error uploading image: ${uploadError.message}`);
             setUploading(false);
             return;
         }
@@ -89,6 +91,40 @@ const AdminDashboard = () => {
         setFormData({ name: '', cat: '', price: '', description: '', img: '' });
         setImagePreview('');
         fetchProducts();
+    };
+
+    const handleFlushStorage = async () => {
+        setLoading(true);
+        try {
+            // 1. List all files in the bucket
+            const { data: files, error: listError } = await supabase.storage
+                .from('product-images')
+                .list();
+
+            if (listError) throw listError;
+
+            if (files && files.length > 0) {
+                // 2. Extract names (excluding any folders if they exist, but usually it's just files)
+                const filesToRemove = files.map(file => file.name);
+
+                // 3. Remove all files
+                const { error: removeError } = await supabase.storage
+                    .from('product-images')
+                    .remove(filesToRemove);
+
+                if (removeError) throw removeError;
+
+                alert(`Successfully flushed ${filesToRemove.length} images from storage.`);
+            } else {
+                alert('Storage is already empty.');
+            }
+        } catch (error) {
+            console.error('Flush error:', error);
+            alert(`Error flushing storage: ${error.message}`);
+        } finally {
+            setIsFlushModalOpen(false);
+            setLoading(false);
+        }
     };
 
     const handleDelete = async (product) => {
@@ -151,6 +187,13 @@ const AdminDashboard = () => {
                             className="flex items-center gap-2 bg-primary text-white px-6 py-3 rounded-xl font-bold shadow-lg hover:bg-primary/90 transition-all"
                         >
                             <Plus size={20} /> Add Product
+                        </button>
+                        <button
+                            onClick={() => setIsFlushModalOpen(true)}
+                            className="flex items-center gap-2 bg-red-50 text-red-600 px-6 py-3 rounded-xl font-bold border border-red-100 hover:bg-red-100 transition-all"
+                            title="Clear all stored images"
+                        >
+                            <Trash2 size={20} /> Flush Storage
                         </button>
                         <button
                             onClick={logout}
@@ -354,6 +397,44 @@ const AdminDashboard = () => {
                                     </button>
                                 </div>
                             </form>
+                        </motion.div>
+                    </div>
+                )}
+            </AnimatePresence>
+
+            {/* Flush Confirmation Modal */}
+            <AnimatePresence>
+                {isFlushModalOpen && (
+                    <div className="fixed inset-0 z-[110] flex items-center justify-center p-4 bg-slate-900/60 backdrop-blur-md">
+                        <motion.div
+                            initial={{ opacity: 0, scale: 0.9 }}
+                            animate={{ opacity: 1, scale: 1 }}
+                            exit={{ opacity: 0, scale: 0.9 }}
+                            className="bg-white rounded-3xl shadow-2xl w-full max-w-md p-8 text-center"
+                        >
+                            <div className="w-20 h-20 bg-red-50 rounded-full flex items-center justify-center mx-auto mb-6 text-red-500">
+                                <Trash2 size={40} />
+                            </div>
+                            <h2 className="text-2xl font-serif text-slate-900 mb-4">Flush Product Images?</h2>
+                            <p className="text-slate-500 mb-8 leading-relaxed">
+                                This will <span className="text-red-600 font-bold underline">permanently delete all images</span> from Supabase Storage. <br /><br />
+                                <span className="text-xs">Note: Database records will remain, but images will appear broken until re-uploaded.</span>
+                            </p>
+                            <div className="flex flex-col gap-3">
+                                <button
+                                    onClick={handleFlushStorage}
+                                    disabled={loading}
+                                    className="w-full bg-red-600 text-white py-4 rounded-xl font-bold shadow-lg hover:bg-red-700 transition-all disabled:opacity-50 flex items-center justify-center gap-2"
+                                >
+                                    {loading ? <Loader2 className="animate-spin" size={20} /> : 'Yes, Flush Everything'}
+                                </button>
+                                <button
+                                    onClick={() => setIsFlushModalOpen(false)}
+                                    className="w-full bg-slate-100 text-slate-600 py-4 rounded-xl font-bold hover:bg-slate-200 transition-all"
+                                >
+                                    Cancel
+                                </button>
+                            </div>
                         </motion.div>
                     </div>
                 )}

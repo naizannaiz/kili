@@ -1,9 +1,30 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { Link } from 'react-router-dom';
-import { ChevronRight, ArrowRight } from 'lucide-react';
+import { ChevronRight, ArrowRight, Loader2 } from 'lucide-react';
+import { supabase } from '../utils/supabase';
+import { useCart } from '../context/CartContext';
 
 const Home = () => {
+    const [featuredProducts, setFeaturedProducts] = useState([]);
+    const [loading, setLoading] = useState(true);
+    const { addToCart } = useCart();
+
+    useEffect(() => {
+        const fetchFeatured = async () => {
+            setLoading(true);
+            const { data, error } = await supabase
+                .from('products')
+                .select('*')
+                .order('created_at', { ascending: false })
+                .limit(3);
+
+            if (data) setFeaturedProducts(data);
+            setLoading(false);
+        };
+        fetchFeatured();
+    }, []);
+
     return (
         <motion.div
             initial={{ opacity: 0 }}
@@ -41,6 +62,32 @@ const Home = () => {
                 <div className="absolute bottom-10 right-12 hidden lg:flex items-center gap-4 text-white/40">
                     <div className="h-px w-20 bg-white/20"></div>
                     <span className="text-xs uppercase tracking-widest font-bold">Scroll to discover</span>
+                </div>
+            </section>
+
+            {/* Quick Access Heritage Bar */}
+            <section className="relative z-20 -mt-12 container">
+                <div className="bg-white/80 backdrop-blur-xl border border-white/20 shadow-2xl rounded-3xl p-2 grid grid-cols-2 md:grid-cols-4 gap-2">
+                    {[
+                        { title: 'Our Heritage', path: '/about', icon: 'history_edu' },
+                        { title: 'The Craft', path: '/craft', icon: 'precision_manufacturing' },
+                        { title: 'Signature Shop', path: '/products', icon: 'shopping_bag' },
+                        { title: 'Impact', path: '/impact', icon: 'diversity_3' },
+                    ].map((item, idx) => (
+                        <Link
+                            key={idx}
+                            to={item.path}
+                            className="group flex flex-col md:flex-row items-center justify-center gap-4 py-8 px-4 rounded-2xl hover:bg-primary/5 transition-all duration-500"
+                        >
+                            <div className="w-12 h-12 bg-primary/5 rounded-xl flex items-center justify-center group-hover:bg-primary group-hover:text-white transition-all duration-500">
+                                <span className="material-symbols-outlined text-2xl">{item.icon}</span>
+                            </div>
+                            <div className="text-center md:text-left">
+                                <div className="text-sm font-bold text-slate-900 group-hover:text-primary transition-colors">{item.title}</div>
+                                <div className="text-[10px] uppercase tracking-widest text-slate-400 font-bold group-hover:text-slate-600">Explore</div>
+                            </div>
+                        </Link>
+                    ))}
                 </div>
             </section>
 
@@ -137,46 +184,45 @@ const Home = () => {
                             View Entire Gallery <ArrowRight className="transition-transform group-hover:translate-x-1" size={20} />
                         </Link>
                     </div>
-                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                        {/* Static Product Examples */}
-                        {[
-                            {
-                                name: "Royal Pattu Paai",
-                                price: "₹12,499",
-                                desc: "Fine silk-finish kora grass with complex geometric borders in deep maroon.",
-                                img: "https://lh3.googleusercontent.com/aida-public/AB6AXuAw6i2yW6SthYYaXE_6bU3BkL5ufcEbKA-ac9s_39DeVcViblAjY9yaLTpGK7pdIWk9AepM1gF3SckVT2WnPPmWqha8vZHroFxzeuFyJyniIerSbxXf6TEh3L1pxmUg-EI58xy-WGsA8GeS35PfUy7dkEAjaQCpvZmxuQPDOQJ9-buAURiq63l-OPqUGFTHysmt5buzu-zcYE8TeJXkmPk29EmDk0Cbqj1uC4zWspMX1ZZcST0drGc2C7qqu9Z8ZPQj1MLAicy9vgY"
-                            },
-                            {
-                                name: "River Olive Weave",
-                                price: "₹8,999",
-                                desc: "Contemporary minimalist design using natural olive dyes and textured finish.",
-                                img: "https://lh3.googleusercontent.com/aida-public/AB6AXuBpjD5XEmFgBRi9ChEI_aOp6PoV283UQt4W6k3nrytq0HImIuMRFBTTLPNvJMX3eNsTtcGd5IXeX-Z5egfKjQ87tNgkm7ODYeaPYqNORlDZs5VjtXOJm8RA0UcUl6zK5SuMl3kLcKR32sg40LpCNlHFRUXV7JaLit8XwsqVHRwWKwc69P2ImIRqqW3h7_3Mcwl2oDCeDu19jHP2feNgqHpLUCO4qr3cohtEXcwr1-j1tA6oUXU_R6k9qx4meRtyrzVUqFXwSe5gcXQ"
-                            },
-                            {
-                                name: "Heritage Terracotta",
-                                price: "₹10,250",
-                                desc: "Intricate traditional motifs symbolizing prosperity, woven with metallic accents.",
-                                img: "https://lh3.googleusercontent.com/aida-public/AB6AXuB6MfD7fvBJeMvI-LJoL0UQIxlQ7jVEImMZF93UiIgnlNYiRMi0yBNfHUmkfPUwsj3awAho1AXLS8CtSRRoGw4m_QbYvgYrZv5v5qCyHveH96AqHT_VNx4L6qh1-vwj8wafbJzJTW0Yd27Cnt4u39HrHD5F6wEDamrYH7c78y4Mrf527ZD1BuKoR9kw9NEfyT_nyzcqpAqfJyWNCOSy5vEOqP68oRtPWDkKtu579nPjPtdonVjIrXmsuZUmK94tuZtgVnnUbPXHndo"
-                            }
-                        ].map((prod, i) => (
-                            <div key={i} className="bg-white border border-slate-200 rounded-xl overflow-hidden shadow-lg shadow-black/5 group">
-                                <div className="aspect-square relative overflow-hidden">
-                                    <img src={prod.img} alt={prod.name} className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" />
-                                    {i === 0 && <div className="absolute top-4 right-4 bg-white/90 backdrop-blur-md px-3 py-1 rounded text-xs font-bold uppercase tracking-wider text-primary">Best Seller</div>}
-                                </div>
-                                <div className="p-6">
-                                    <div className="flex justify-between items-start mb-2">
-                                        <h3 className="text-xl font-bold font-serif">{prod.name}</h3>
-                                        <span className="text-primary font-bold">{prod.price}</span>
+
+                    {loading ? (
+                        <div className="flex justify-center py-12">
+                            <Loader2 size={32} className="animate-spin text-primary" />
+                        </div>
+                    ) : featuredProducts.length > 0 ? (
+                        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                            {featuredProducts.map((prod, i) => (
+                                <div key={prod.id} className="bg-white border border-slate-200 rounded-xl overflow-hidden shadow-lg shadow-black/5 group">
+                                    <div className="aspect-square relative overflow-hidden">
+                                        <img src={prod.img} alt={prod.name} className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" />
+                                        {i === 0 && <div className="absolute top-4 right-4 bg-white/90 backdrop-blur-md px-3 py-1 rounded text-xs font-bold uppercase tracking-wider text-primary">Latest Arrival</div>}
                                     </div>
-                                    <p className="text-slate-500 text-sm mb-6">{prod.desc}</p>
-                                    <button className="w-full py-3 border border-primary text-primary font-bold rounded-lg hover:bg-primary hover:text-white transition-colors">
-                                        Add to Cart
-                                    </button>
+                                    <div className="p-6">
+                                        <div className="flex justify-between items-start mb-2">
+                                            <h3 className="text-xl font-bold font-serif">{prod.name}</h3>
+                                            <span className="text-primary font-bold">{prod.price}</span>
+                                        </div>
+                                        <p className="text-slate-500 text-sm mb-6 line-clamp-2">{prod.description}</p>
+                                        <div className="flex gap-3">
+                                            <Link to="/products" className="flex-1 text-center py-3 border border-slate-200 text-slate-600 font-bold rounded-lg hover:bg-slate-50 transition-colors">
+                                                Details
+                                            </Link>
+                                            <button
+                                                onClick={() => addToCart(prod)}
+                                                className="flex-1 bg-primary text-white font-bold py-3 rounded-lg hover:bg-primary/90 transition-all shadow-md active:scale-95"
+                                            >
+                                                Add to Cart
+                                            </button>
+                                        </div>
+                                    </div>
                                 </div>
-                            </div>
-                        ))}
-                    </div>
+                            ))}
+                        </div>
+                    ) : (
+                        <div className="text-center py-12 bg-slate-50 rounded-2xl border border-dashed border-slate-200">
+                            <p className="text-slate-500">New arrivals coming soon to our signature gallery.</p>
+                        </div>
+                    )}
                 </div>
             </section>
 

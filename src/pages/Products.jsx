@@ -1,11 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { supabase } from '../utils/supabase';
+import { useCart } from '../context/CartContext';
+import { ShoppingBag } from 'lucide-react';
 
 const Products = () => {
     const [filter, setFilter] = useState('All');
     const [products, setProducts] = useState([]);
     const [loading, setLoading] = useState(true);
+    const { addToCart } = useCart();
 
     const categories = ['All', 'Yoga & Meditation', 'Home Decor', 'Custom Heirloom Mats'];
 
@@ -58,38 +61,59 @@ const Products = () => {
                 </div>
 
                 {/* Product Grid */}
-                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-10 mb-24">
-                    <AnimatePresence mode="popLayout">
-                        {filteredProducts.map(product => (
-                            <motion.div
-                                layout
-                                initial={{ opacity: 0, scale: 0.9 }}
-                                animate={{ opacity: 1, scale: 1 }}
-                                exit={{ opacity: 0, scale: 0.9 }}
-                                key={product.id}
-                                className="group cursor-pointer"
-                            >
-                                <div className="relative overflow-hidden rounded-xl aspect-[4/5] bg-slate-100 mb-6 shadow-sm group-hover:shadow-xl transition-shadow duration-500">
-                                    <img
-                                        src={product.img}
-                                        alt={product.name}
-                                        className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
-                                    />
-                                    <div className="absolute top-4 right-4">
-                                        <button className="bg-white/80 backdrop-blur rounded-full p-2 text-primary hover:bg-white transition-colors">
-                                            <span className="material-symbols-outlined text-xl">favorite</span>
-                                        </button>
+                {loading ? (
+                    <div className="flex justify-center py-24">
+                        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary"></div>
+                    </div>
+                ) : filteredProducts.length === 0 ? (
+                    <div className="bg-slate-50 rounded-3xl p-20 text-center border border-dashed border-slate-200 mb-24">
+                        <div className="w-20 h-20 bg-white rounded-full flex items-center justify-center mx-auto mb-6 text-slate-300 shadow-sm">
+                            <span className="material-symbols-outlined text-4xl">inventory_2</span>
+                        </div>
+                        <h2 className="text-2xl font-serif text-slate-900 mb-2">Collection Coming Soon</h2>
+                        <p className="text-slate-500 mb-0 max-w-sm mx-auto">We are currently updating our digital catalog with new artisanal handwoven products.</p>
+                    </div>
+                ) : (
+                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-10 mb-24">
+                        <AnimatePresence mode="popLayout">
+                            {filteredProducts.map(product => (
+                                <motion.div
+                                    layout
+                                    initial={{ opacity: 0, scale: 0.9 }}
+                                    animate={{ opacity: 1, scale: 1 }}
+                                    exit={{ opacity: 0, scale: 0.9 }}
+                                    key={product.id}
+                                    className="group cursor-pointer"
+                                >
+                                    <div className="relative overflow-hidden rounded-xl aspect-[4/5] bg-slate-100 mb-6 shadow-sm group-hover:shadow-xl transition-shadow duration-500">
+                                        <img
+                                            src={product.img}
+                                            alt={product.name}
+                                            className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+                                        />
+                                        <div className="absolute top-4 right-4 flex flex-col gap-2">
+                                            <button
+                                                onClick={(e) => {
+                                                    e.stopPropagation();
+                                                    addToCart(product);
+                                                }}
+                                                className="bg-white/80 backdrop-blur rounded-full p-2 text-primary hover:bg-primary hover:text-white transition-all shadow-md active:scale-90"
+                                                title="Add to Basket"
+                                            >
+                                                <ShoppingBag size={20} />
+                                            </button>
+                                        </div>
                                     </div>
-                                </div>
-                                <h3 className="font-serif text-2xl text-slate-900 mb-1">{product.name}</h3>
-                                <div className="flex justify-between items-center">
-                                    <p className="text-sm text-slate-500 font-medium">{product.description}</p>
-                                    <p className="text-lg font-bold text-primary">{product.price}</p>
-                                </div>
-                            </motion.div>
-                        ))}
-                    </AnimatePresence>
-                </div>
+                                    <h3 className="font-serif text-2xl text-slate-900 mb-1">{product.name}</h3>
+                                    <div className="flex justify-between items-center">
+                                        <p className="text-sm text-slate-500 font-medium">{product.description}</p>
+                                        <p className="text-lg font-bold text-primary">{product.price}</p>
+                                    </div>
+                                </motion.div>
+                            ))}
+                        </AnimatePresence>
+                    </div>
+                )}
 
                 {/* Custom Heirloom Banner */}
                 <section className="relative rounded-2xl overflow-hidden mb-24 min-h-[500px] flex items-center">

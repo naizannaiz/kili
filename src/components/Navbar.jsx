@@ -1,12 +1,16 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { motion } from 'framer-motion';
-import { Menu, X } from 'lucide-react';
+import { Menu, X, ShoppingBag } from 'lucide-react';
+import { useCart } from '../context/CartContext';
 
 const Navbar = () => {
     const [isOpen, setIsOpen] = useState(false);
     const [scrolled, setScrolled] = useState(false);
     const location = useLocation();
+    const { setIsCartOpen, cartItems } = useCart();
+
+    const cartCount = cartItems.reduce((acc, item) => acc + item.quantity, 0);
 
     useEffect(() => {
         const handleScroll = () => {
@@ -50,6 +54,19 @@ const Navbar = () => {
                 </nav>
 
                 <div className="flex items-center gap-6">
+                    {/* Cart Icon */}
+                    <button
+                        onClick={() => setIsCartOpen(true)}
+                        className="relative p-2 text-slate-600 hover:text-primary transition-colors"
+                    >
+                        <ShoppingBag size={24} />
+                        {cartCount > 0 && (
+                            <span className="absolute -top-1 -right-1 bg-primary text-white text-[10px] font-bold w-5 h-5 flex items-center justify-center rounded-full border-2 border-white">
+                                {cartCount}
+                            </span>
+                        )}
+                    </button>
+
                     <Link to="/products" className="hidden sm:block bg-primary hover:bg-primary/90 text-white px-6 py-2.5 rounded-lg text-sm font-bold transition-all transform hover:scale-105 active:scale-95">
                         Shop Collection
                     </Link>
