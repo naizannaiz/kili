@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Killimangalam Mats: The Collection</title>
+<!-- Tailwind CSS -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<!-- Google Fonts -->
+<link href="https://fonts.googleapis.com/css2?family=Work+Sans:wght@300;400;500;600;700;900&amp;family=Playfair+Display:wght@700&amp;display=swap" rel="stylesheet"/>
+<!-- Material Symbols -->
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#d41121",
+                        "background-light": "#fdfbf7",
+                        "background-dark": "#221012",
+                        "terracotta": "#e38a7d",
+                        "olive": "#606c38"
+                    },
+                    fontFamily: {
+                        "display": ["Work Sans", "sans-serif"],
+                        "serif": ["Playfair Display", "serif"]
+                    },
+                    borderRadius: {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                },
+            },
+        }
+    </script>
+<style>
+        .product-card-hover:hover .product-image {
+            transform: scale(1.05);
+        }
+        .product-image {
+            transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+    </style>
+</head>
+<body class="bg-background-light dark:bg-background-dark font-display text-slate-900 dark:text-slate-100 transition-colors duration-300">
+<!-- Navigation Bar -->
+<header class="sticky top-0 z-50 bg-background-light/90 dark:bg-background-dark/90 backdrop-blur-md border-b border-primary/10 px-6 lg:px-20 py-4">
+<div class="max-w-7xl mx-auto flex items-center justify-between">
+<div class="flex items-center gap-12">
+<a class="flex items-center gap-3 group" href="#">
+<div class="text-primary">
+<span class="material-symbols-outlined text-3xl">grid_view</span>
+</div>
+<h2 class="text-xl font-black tracking-tighter uppercase text-slate-900 dark:text-slate-100">Killimangalam</h2>
+</a>
+<nav class="hidden md:flex items-center gap-8">
+<a class="text-sm font-semibold hover:text-primary transition-colors" href="#">Home</a>
+<a class="text-sm font-semibold hover:text-primary transition-colors" href="#">About Us</a>
+<a class="text-sm font-semibold hover:text-primary transition-colors" href="#">Craft</a>
+<a class="text-sm font-semibold text-primary" href="#">Products</a>
+<a class="text-sm font-semibold hover:text-primary transition-colors" href="#">Visit</a>
+<a class="text-sm font-semibold hover:text-primary transition-colors" href="#">Impact</a>
+</nav>
+</div>
+<div class="flex items-center gap-4">
+<div class="relative hidden sm:block">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-primary/60 text-xl">search</span>
+<input class="bg-primary/5 border-none rounded-full pl-10 pr-4 py-2 text-sm focus:ring-1 focus:ring-primary w-48 lg:w-64" placeholder="Search collection..." type="text"/>
+</div>
+<button class="p-2 hover:bg-primary/10 rounded-full text-slate-900 dark:text-slate-100 transition-colors">
+<span class="material-symbols-outlined">shopping_bag</span>
+</button>
+<button class="p-2 hover:bg-primary/10 rounded-full text-slate-900 dark:text-slate-100 transition-colors">
+<span class="material-symbols-outlined">person</span>
+</button>
+</div>
+</div>
+</header>
+<main class="max-w-7xl mx-auto px-6 lg:px-20 py-12">
+<!-- Page Header -->
+<div class="text-center mb-16">
+<h1 class="font-serif text-5xl md:text-7xl text-primary mb-4">The Collection</h1>
+<p class="text-slate-600 dark:text-slate-400 max-w-2xl mx-auto text-lg">
+                Discover the intricate patterns and artisanal quality of authentic Kora Grass Mats, handwoven by the masters of Killimangalam.
+            </p>
+</div>
+<!-- Category Filter -->
+<div class="flex flex-wrap justify-center gap-4 md:gap-12 border-b border-primary/10 mb-12 pb-2">
+<a class="pb-4 px-2 text-sm font-bold border-b-2 border-primary text-primary tracking-wide uppercase" href="#">All</a>
+<a class="pb-4 px-2 text-sm font-bold border-b-2 border-transparent hover:border-primary/40 text-slate-500 hover:text-primary transition-all tracking-wide uppercase" href="#">Yoga &amp; Meditation</a>
+<a class="pb-4 px-2 text-sm font-bold border-b-2 border-transparent hover:border-primary/40 text-slate-500 hover:text-primary transition-all tracking-wide uppercase" href="#">Home Decor</a>
+<a class="pb-4 px-2 text-sm font-bold border-b-2 border-transparent hover:border-primary/40 text-slate-500 hover:text-primary transition-all tracking-wide uppercase" href="#">Custom Heirloom Mats</a>
+</div>
+<!-- Product Grid -->
+<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-10 mb-24">
+<!-- Product Card 1 -->
+<div class="group product-card-hover cursor-pointer">
+<div class="relative overflow-hidden rounded-xl aspect-[4/5] bg-slate-100 mb-6 shadow-sm group-hover:shadow-xl transition-shadow duration-500">
+<img alt="Woven grass mat" class="product-image w-full h-full object-cover" data-alt="Intricate natural fiber yoga mat weave pattern" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBn-O20cyBBQOEztjraFUmdTjtQ5k6JIHi4Jh4HWdNRP-nlCNykwA23CBSkAj2N8uEP_lJWlkiNR9Qf2w4uN6QmTNnrNoqEpNOPVuHqn4KVJpioO3S25vpgtZVJpsQU1xw2TLP1YyDZyLX0tUljWm3LhFZzPNGv9OQ02EXsZkLMfp6M4hFUw4OTdxG2I2d3XKzNDTsb8NUUx6dMmcWG5Oe7LotGV2y7-IFp4wwUC3vJHNq0kclOoWjzPnBrpmiBRMV3CndxBEY4VOk"/>
+<div class="absolute top-4 right-4">
+<button class="bg-white/80 backdrop-blur rounded-full p-2 text-primary hover:bg-white transition-colors">
+<span class="material-symbols-outlined text-xl">favorite</span>
+</button>
+</div>
+</div>
+<h3 class="font-serif text-2xl text-slate-900 dark:text-slate-100 mb-1">The Padma Yoga Mat</h3>
+<div class="flex justify-between items-center">
+<p class="text-sm text-slate-500 font-medium">Natural Fiber • Handwoven</p>
+<p class="text-lg font-bold text-primary">₹4,500</p>
+</div>
+</div>
+<!-- Product Card 2 -->
+<div class="group product-card-hover cursor-pointer">
+<div class="relative overflow-hidden rounded-xl aspect-[4/5] bg-slate-100 mb-6 shadow-sm group-hover:shadow-xl transition-shadow duration-500">
+<img alt="Long runner mat" class="product-image w-full h-full object-cover" data-alt="Long handwoven grass runner with geometric pattern" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAJcpwG2QIPKeIDcKzfN1TwfphVF0LrDbzlfz8BlOKTi8kb_xl6ipCeTzZWT05FJ0MBNlVRb5CVQmHT6dteJuZf5YWRgHYQi_p-gkwIxk_LUOucpuD_zTBq39bQTy7ObLvden9f8R5GJycBv8qWoIK6AB-G4EIwrXa8M-iLTKtCHDIDuuasb6wS0b0y_CEdVlxlWDV2ecP0Hs5SloCSbuyc4SenPlaov_am4IbYRkolaodwSDjSMGxoOivMAfT8-ch6el8t3HijNR8"/>
+<div class="absolute top-4 right-4">
+<button class="bg-white/80 backdrop-blur rounded-full p-2 text-primary hover:bg-white transition-colors">
+<span class="material-symbols-outlined text-xl">favorite</span>
+</button>
+</div>
+</div>
+<h3 class="font-serif text-2xl text-slate-900 dark:text-slate-100 mb-1">Royal Thinnai Runner</h3>
+<div class="flex justify-between items-center">
+<p class="text-sm text-slate-500 font-medium">Premium Texture • Extra Fine</p>
+<p class="text-lg font-bold text-primary">₹8,200</p>
+</div>
+</div>
+<!-- Product Card 3 -->
+<div class="group product-card-hover cursor-pointer">
+<div class="relative overflow-hidden rounded-xl aspect-[4/5] bg-slate-100 mb-6 shadow-sm group-hover:shadow-xl transition-shadow duration-500">
+<img alt="Meditation mat" class="product-image w-full h-full object-cover" data-alt="Round meditation grass mat with circular weave" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDJCqFv821DOqI8jpLd8SlMbkbO_aOhKXdmb2ZYDwFtPrZQ8ZNc7vC_f32A2ZNr7niEztHVli83r0RwBGg1MTfeBYjM2fxpPfSyRwcJMV79qKAN8AfxzhcIKHqbv7O-0WZXMzyTopjl6rcTHERIV3zMx34WvccUC_g6z4x6tG9RZjEfxjIANWw6wdnG72LlHsKDXoGm9DkbULm2OvsckDBYAqdUBi0Vze0qsoAVh0Qwy_AlxKlezgiOWR1X5wC4cNuewPR-MZtFhHM"/>
+<div class="absolute top-4 right-4">
+<button class="bg-white/80 backdrop-blur rounded-full p-2 text-primary hover:bg-white transition-colors">
+<span class="material-symbols-outlined text-xl">favorite</span>
+</button>
+</div>
+</div>
+<h3 class="font-serif text-2xl text-slate-900 dark:text-slate-100 mb-1">Sahasrara Meditation Mat</h3>
+<div class="flex justify-between items-center">
+<p class="text-sm text-slate-500 font-medium">Meditation Grade • Cushioned</p>
+<p class="text-lg font-bold text-primary">₹3,800</p>
+</div>
+</div>
+<!-- Product Card 4 -->
+<div class="group product-card-hover cursor-pointer">
+<div class="relative overflow-hidden rounded-xl aspect-[4/5] bg-slate-100 mb-6 shadow-sm group-hover:shadow-xl transition-shadow duration-500">
+<img alt="Large floor spread" class="product-image w-full h-full object-cover" data-alt="Large format grass rug in earthy tones" src="https://lh3.googleusercontent.com/aida-public/AB6AXuADkVr3nQu9FaxFACrPwhhsJWsuehqIVSH9bSkIjryBUFnDsolPrGA4zPtgsVnd00RdkIU6qf4Xz7IixoWJnMYYVaprHqQANwttHYZ01L8aAcEvjdKGS51Um-EBJtR1MuZZpGNEuumNlkdkg7rhQe6HP7DJxV_iiB-w-glKNojzd5cAWQnGnDyNSqeNQ-cRbC4-qCRInG4Koghv-2AFQpCTbWKcGMao8OTN4fzt4rh4_y7M3LZyJU3lXj8zCLdRf0tiUqWkmWagvQQ"/>
+<div class="absolute top-4 right-4">
+<button class="bg-white/80 backdrop-blur rounded-full p-2 text-primary hover:bg-white transition-colors">
+<span class="material-symbols-outlined text-xl">favorite</span>
+</button>
+</div>
+</div>
+<h3 class="font-serif text-2xl text-slate-900 dark:text-slate-100 mb-1">Ananta Floor Spread</h3>
+<div class="flex justify-between items-center">
+<p class="text-sm text-slate-500 font-medium">Large Format • Living Area</p>
+<p class="text-lg font-bold text-primary">₹12,500</p>
+</div>
+</div>
+<!-- Product Card 5 -->
+<div class="group product-card-hover cursor-pointer">
+<div class="relative overflow-hidden rounded-xl aspect-[4/5] bg-slate-100 mb-6 shadow-sm group-hover:shadow-xl transition-shadow duration-500">
+<img alt="Compact sitting mat" class="product-image w-full h-full object-cover" data-alt="Compact portable hand-woven sitting mat" src="https://lh3.googleusercontent.com/aida-public/AB6AXuC8OjpaP39xbgg6vND55GmWtJ68IkcAsos6G-KR8U7N_Z7CLWEUW6KdsL1kIWn_RhvoIkViYMque1qVgsz7vt3fLORhTWRgs6Y7uBUSVOyQPcaYSTS1rRRuESqFvQQ9HJbNLE3r5YubpGl0WYkRdoaRd9tS31iWfZO7KxXWo7AMM-pwnonz8vBPwRNC_7_xaS95Y4adFkCLbWgYtqMk-437N3PWHQKHXS4fhXoNTw6V51gineA2arlVP1OY2oWjkwQ4DStisSdMCXM"/>
+<div class="absolute top-4 right-4">
+<button class="bg-white/80 backdrop-blur rounded-full p-2 text-primary hover:bg-white transition-colors">
+<span class="material-symbols-outlined text-xl">favorite</span>
+</button>
+</div>
+</div>
+<h3 class="font-serif text-2xl text-slate-900 dark:text-slate-100 mb-1">Mandala Sitting Mat</h3>
+<div class="flex justify-between items-center">
+<p class="text-sm text-slate-500 font-medium">Compact &amp; Portable • Outdoor</p>
+<p class="text-lg font-bold text-primary">₹2,400</p>
+</div>
+</div>
+<!-- Product Card 6 -->
+<div class="group product-card-hover cursor-pointer">
+<div class="relative overflow-hidden rounded-xl aspect-[4/5] bg-slate-100 mb-6 shadow-sm group-hover:shadow-xl transition-shadow duration-500">
+<img alt="Heritage bed runner" class="product-image w-full h-full object-cover" data-alt="Heritage bed runner with intricate kora grass weave" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBA-fZorfr7c4acT_C5K6ZUavrX4PPkrXxYFCymzckjfdw7Tgrmovm31hBB_qba8WH16EMwJ9ktS0SZtS-bh68nRcDWmsf_0NiIAaGa6oBVKPfzXY65QAdrGv6nM-flaHUTzeP_dF5SEOzzwqYuu23Kb71kpWXe7yASpca_OFBFBrlW8L1027K8Mz1d6vMSCpb_21BlA3K3vfsJ4BX-6Aa01fjRl5inI_Lx8kp5yEMPuMEWE-gJpRZJrPTLR6Aa3pO9qox-Ded3hS0"/>
+<div class="absolute top-4 right-4">
+<button class="bg-white/80 backdrop-blur rounded-full p-2 text-primary hover:bg-white transition-colors">
+<span class="material-symbols-outlined text-xl">favorite</span>
+</button>
+</div>
+</div>
+<h3 class="font-serif text-2xl text-slate-900 dark:text-slate-100 mb-1">Heritage Bed Runner</h3>
+<div class="flex justify-between items-center">
+<p class="text-sm text-slate-500 font-medium">Custom Weave • Bedroom</p>
+<p class="text-lg font-bold text-primary">₹15,000</p>
+</div>
+</div>
+</div>
+<!-- Custom Heirloom Banner -->
+<section class="relative rounded-2xl overflow-hidden mb-24 min-h-[500px] flex items-center">
+<div class="absolute inset-0 bg-cover bg-center bg-no-repeat transition-transform duration-[2000ms] hover:scale-105" data-alt="Artisan hands weaving kora grass mat close up" style="background-image: linear-gradient(to right, rgba(0,0,0,0.7), rgba(0,0,0,0.2)), url('https://lh3.googleusercontent.com/aida-public/AB6AXuCrgzNr-XHGUpBbcxMOYQo77wfQFfrJy6OshoAjBaGfFWuwcFpySGkzTG71WBIJLQ-Po3Q1qVcLMbZJvi4CrVj2pUOb8AlxVT2RPAQ7a1rLPoRlWdY8Y_L_N2uoju30AA08MTdVkwd8ROUbUfItB8HGdNQzOaABJC7qYTl8ZBtDh2kraNQAb-8NciIimVHi5H5RxWaz6IJCkFHq-b6rBHSP2oqtamdYkXsKt0yjbnTAcbzsZyHPM2YYVrsf4wrV-pCsgsJ6x3mNUqU');">
+</div>
+<div class="relative z-10 px-8 md:px-16 lg:px-24 max-w-2xl text-white">
+<span class="inline-block px-4 py-1 rounded-full bg-primary/30 backdrop-blur-sm text-sm font-bold tracking-widest uppercase mb-6 border border-white/20">Bespoke Craft</span>
+<h2 class="font-serif text-4xl md:text-6xl mb-6">Design Your Own Heritage</h2>
+<p class="text-lg md:text-xl font-light mb-10 opacity-90 leading-relaxed">
+                    Your Story, Our Craft. Work directly with our master weavers to create a custom heirloom mat that reflects your personal journey and style.
+                </p>
+<button class="bg-primary hover:bg-primary/90 text-white font-bold py-4 px-10 rounded-lg text-lg transition-all transform hover:-translate-y-1 active:scale-95 shadow-lg flex items-center gap-3">
+                    Start Customizing
+                    <span class="material-symbols-outlined">edit_note</span>
+</button>
+</div>
+</section>
+<!-- Care Instructions Section -->
+<section class="bg-terracotta/10 rounded-2xl p-8 md:p-16 border border-terracotta/20">
+<div class="text-center mb-12">
+<h2 class="font-serif text-3xl md:text-4xl text-slate-900 dark:text-slate-100 mb-2">Preserving the Weave</h2>
+<p class="text-slate-600 dark:text-slate-400">Simple steps to ensure your Kora Grass mat lasts for generations.</p>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-3 gap-8 md:gap-16">
+<div class="flex flex-col items-center text-center space-y-4">
+<div class="w-16 h-16 rounded-full bg-terracotta/20 flex items-center justify-center text-primary">
+<span class="material-symbols-outlined text-3xl">air</span>
+</div>
+<h4 class="font-bold text-lg text-slate-900 dark:text-slate-100">Dust Regularly</h4>
+<p class="text-sm text-slate-600 dark:text-slate-400 leading-relaxed">Simply shake the mat or use a soft brush to remove dust from the intricate weave fibers.</p>
+</div>
+<div class="flex flex-col items-center text-center space-y-4">
+<div class="w-16 h-16 rounded-full bg-terracotta/20 flex items-center justify-center text-primary">
+<span class="material-symbols-outlined text-3xl">water_drop</span>
+</div>
+<h4 class="font-bold text-lg text-slate-900 dark:text-slate-100">Avoid Dampness</h4>
+<p class="text-sm text-slate-600 dark:text-slate-400 leading-relaxed">Keep away from direct water contact. If spilled, wipe immediately and air-dry completely.</p>
+</div>
+<div class="flex flex-col items-center text-center space-y-4">
+<div class="w-16 h-16 rounded-full bg-terracotta/20 flex items-center justify-center text-primary">
+<span class="material-symbols-outlined text-3xl">sunny</span>
+</div>
+<h4 class="font-bold text-lg text-slate-900 dark:text-slate-100">Sun Dry Occasionally</h4>
+<p class="text-sm text-slate-600 dark:text-slate-400 leading-relaxed">Expose to gentle morning sunlight once a month to maintain fiber flexibility and natural aroma.</p>
+</div>
+</div>
+</section>
+</main>
+<!-- Footer -->
+<footer class="bg-background-dark text-white/80 py-20 px-6 lg:px-20 mt-20">
+<div class="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-4 gap-12">
+<div class="col-span-1 md:col-span-1">
+<h2 class="text-white text-2xl font-black mb-6 tracking-tighter uppercase">Killimangalam</h2>
+<p class="text-sm leading-relaxed mb-8 opacity-70">
+                    Sustaining a 400-year-old tradition of handwoven kora grass mats from the heart of Kerala.
+                </p>
+<div class="flex gap-4">
+<a class="hover:text-primary transition-colors" href="#"><span class="material-symbols-outlined">public</span></a>
+<a class="hover:text-primary transition-colors" href="#"><span class="material-symbols-outlined">photo_camera</span></a>
+<a class="hover:text-primary transition-colors" href="#"><span class="material-symbols-outlined">mail</span></a>
+</div>
+</div>
+<div>
+<h4 class="text-white font-bold mb-6 text-lg">Shop</h4>
+<ul class="space-y-4 text-sm opacity-70">
+<li><a class="hover:text-primary transition-colors" href="#">All Products</a></li>
+<li><a class="hover:text-primary transition-colors" href="#">Yoga Mats</a></li>
+<li><a class="hover:text-primary transition-colors" href="#">Floor Rugs</a></li>
+<li><a class="hover:text-primary transition-colors" href="#">Custom Orders</a></li>
+</ul>
+</div>
+<div>
+<h4 class="text-white font-bold mb-6 text-lg">About</h4>
+<ul class="space-y-4 text-sm opacity-70">
+<li><a class="hover:text-primary transition-colors" href="#">Our History</a></li>
+<li><a class="hover:text-primary transition-colors" href="#">The Craft Process</a></li>
+<li><a class="hover:text-primary transition-colors" href="#">Sustainability</a></li>
+<li><a class="hover:text-primary transition-colors" href="#">Contact Us</a></li>
+</ul>
+</div>
+<div>
+<h4 class="text-white font-bold mb-6 text-lg">Newsletter</h4>
+<p class="text-sm mb-4 opacity-70">Join our journey and get updates on new patterns.</p>
+<div class="flex gap-2">
+<input class="bg-white/10 border-none rounded-lg flex-grow text-sm focus:ring-1 focus:ring-primary" placeholder="Email address" type="email"/>
+<button class="bg-primary hover:bg-primary/80 px-4 py-2 rounded-lg transition-colors">
+<span class="material-symbols-outlined text-xl">arrow_forward</span>
+</button>
+</div>
+</div>
+</div>
+<div class="max-w-7xl mx-auto border-t border-white/10 mt-16 pt-8 text-xs text-center opacity-40">
+            © 2024 Killimangalam Mats. All rights reserved. Handcrafted with love.
+        </div>
+</footer>
+</body></html>

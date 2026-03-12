@@ -1,0 +1,285 @@
+@import "tailwindcss";
+
+@theme {
+  --color-primary: #d41121;
+  --color-secondary: #C5A059;
+  /* Gold */
+  --color-bg-light: #f8f6f6;
+  --color-bg-dark: #1a0d0e;
+  --color-text-dark: #1f2937;
+  --color-text-light: #f3f4f6;
+  --color-terracotta: #8e443d;
+  --color-olive: #3d4b3a;
+
+  --transition-all: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+  --shadow-custom: 0 10px 40px -10px rgba(0, 0, 0, 0.15);
+
+  /* Typography */
+  --font-serif: "Playfair Display", serif;
+  --font-display: "Manrope", sans-serif;
+  --font-sans: "Work Sans", sans-serif;
+}
+
+:root {
+  --primary: #d41121;
+  --primary-rgb: 212, 17, 33;
+  --secondary: #C5A059;
+  /* Gold */
+  --bg-light: #f8f6f6;
+  --bg-dark: #1a0d0e;
+  --text-dark: #1f2937;
+  --text-light: #f3f4f6;
+  --terracotta: #8e443d;
+  --olive: #3d4b3a;
+
+  --transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+  --shadow: 0 10px 40px -10px rgba(0, 0, 0, 0.15);
+
+  /* Typography */
+  --font-serif: "Playfair Display", serif;
+  --font-display: "Manrope", sans-serif;
+  --font-sans: "Work Sans", sans-serif;
+}
+
+
+@layer base {
+  * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+
+  body {
+    font-family: var(--font-display);
+    background-color: var(--bg-light);
+    color: var(--text-dark);
+    line-height: 1.6;
+    overflow-x: hidden;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4 {
+    font-family: var(--font-serif);
+    font-weight: 700;
+    color: var(--primary);
+    line-height: 1.1;
+  }
+
+  p {
+    font-size: 1.1rem;
+    font-weight: 400;
+    color: #4b5563;
+  }
+
+  a {
+    text-decoration: none;
+    color: inherit;
+    transition: var(--transition);
+  }
+
+  ul {
+    list-style: none;
+  }
+}
+
+
+.container {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 0 1.5rem;
+}
+
+@media (min-width: 1024px) {
+  .container {
+    padding: 0 4rem;
+  }
+}
+
+section {
+  padding: 6rem 0;
+}
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.75rem 2rem;
+  background-color: var(--primary);
+  color: white;
+  border-radius: 8px;
+  font-weight: 700;
+  font-size: 0.95rem;
+  border: 1px solid var(--primary);
+  cursor: pointer;
+  transition: var(--transition);
+  text-transform: none;
+  letter-spacing: normal;
+}
+
+.btn:hover {
+  background-color: transparent;
+  color: var(--primary);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(var(--primary-rgb), 0.2);
+}
+
+.btn-outline {
+  background-color: transparent;
+  color: var(--primary);
+  border: 1px solid rgba(var(--primary-rgb), 0.2);
+}
+
+.btn-outline:hover {
+  background-color: var(--primary);
+  color: white;
+  border-color: var(--primary);
+}
+
+/* Animations */
+.fade-in {
+  opacity: 0;
+  transform: translateY(30px);
+  transition: opacity 1s cubic-bezier(0.16, 1, 0.3, 1), transform 1s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.fade-in.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Glassmorphism Classes */
+.glass {
+  background: rgba(255, 255, 255, 0.7);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+}
+
+/* Layout Utilities */
+.flex {
+  display: flex;
+}
+
+.flex-col {
+  flex-direction: column;
+}
+
+.justify-between {
+  justify-content: space-between;
+}
+
+.justify-center {
+  justify-content: center;
+}
+
+.items-center {
+  align-items: center;
+}
+
+.gap-4 {
+  gap: 1rem;
+}
+
+.gap-6 {
+  gap: 1.5rem;
+}
+
+.gap-8 {
+  gap: 2rem;
+}
+
+.gap-12 {
+  gap: 3rem;
+}
+
+.gap-20 {
+  gap: 5rem;
+}
+
+.grid {
+  display: grid;
+}
+
+.grid-cols-1 {
+  grid-template-columns: repeat(1, minmax(0, 1fr));
+}
+
+@media (min-width: 768px) {
+  .md\:flex {
+    display: flex;
+  }
+
+  .md\:hidden {
+    display: none;
+  }
+
+  .md\:grid-cols-2 {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .md\:grid-cols-3 {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  .md\:grid-cols-4 {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+}
+
+.hidden {
+  display: none;
+}
+
+.relative {
+  position: relative;
+}
+
+.absolute {
+  position: absolute;
+}
+
+.inset-0 {
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+}
+
+.z-0 {
+  z-index: 0;
+}
+
+.z-10 {
+  z-index: 10;
+}
+
+.z-50 {
+  z-index: 50;
+}
+
+.w-full {
+  width: 100%;
+}
+
+.h-full {
+  height: 100%;
+}
+
+.h-screen {
+  height: 100vh;
+}
+
+.aspect-square {
+  aspect-ratio: 1 / 1;
+}
+
+.aspect-video {
+  aspect-ratio: 16 / 9;
+}
+
+.object-cover {
+  object-fit: cover;
+}
