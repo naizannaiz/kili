@@ -1,4 +1,5 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
+import { supabase } from '../utils/supabase';
 
 const CartContext = createContext();
 
@@ -16,10 +17,26 @@ export const CartProvider = ({ children }) => {
         return savedCart ? JSON.parse(savedCart) : [];
     });
     const [isCartOpen, setIsCartOpen] = useState(false);
+    const [whatsappNumber, setWhatsappNumber] = useState('919048911000'); // Default fallback
 
     useEffect(() => {
         localStorage.setItem('kili-cart', JSON.stringify(cartItems));
     }, [cartItems]);
+
+    useEffect(() => {
+        const fetchSettings = async () => {
+            const { data, error } = await supabase
+                .from('site_settings')
+                .select('value')
+                .eq('key', 'whatsapp_number')
+                .single();
+
+            if (data && data.value) {
+                setWhatsappNumber(data.value);
+            }
+        };
+        fetchSettings();
+    }, []);
 
     const addToCart = (product) => {
         setCartItems(prev => {
@@ -53,13 +70,12 @@ export const CartProvider = ({ children }) => {
 
     const getCartTotal = () => {
         return cartItems.reduce((total, item) => {
-            // Remove ₹ and commas from price string for calculation
             const price = parseFloat(item.price.replace(/[₹,]/g, ''));
             return total + (isNaN(price) ? 0 : price * item.quantity);
         }, 0);
     };
 
-    const checkoutViaWhatsApp = (adminNumber = '919048911000') => { // Replace with actual admin number
+    const checkoutViaWhatsApp = () => {
         const total = getCartTotal();
         let message = `*Order Inquiry from Killimangalam Website*\n\n`;
         message += `Hello, I'm interested in purchasing the following items:\n\n`;
@@ -75,7 +91,7 @@ export const CartProvider = ({ children }) => {
         message += `Please let me know the next steps for payment and shipping.`;
 
         const encodedMessage = encodeURIComponent(message);
-        window.open(`https://wa.me/${adminNumber}?text=${encodedMessage}`, '_blank');
+        window.open(`https://wa.me/${whatsappNumber}?text=${encodedMessage}`, '_blank');
     };
 
     return (

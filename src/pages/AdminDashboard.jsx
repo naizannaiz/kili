@@ -13,6 +13,8 @@ const AdminDashboard = () => {
     const [editingProduct, setEditingProduct] = useState(null);
     const [uploading, setUploading] = useState(false);
     const [imagePreview, setImagePreview] = useState('');
+    const [whatsappNumber, setWhatsappNumber] = useState('');
+    const [isSavingSettings, setIsSavingSettings] = useState(false);
     const [formData, setFormData] = useState({
         name: '',
         cat: '',
@@ -23,7 +25,33 @@ const AdminDashboard = () => {
 
     useEffect(() => {
         fetchProducts();
+        fetchSettings();
     }, []);
+
+    const fetchSettings = async () => {
+        const { data, error } = await supabase
+            .from('site_settings')
+            .select('value')
+            .eq('key', 'whatsapp_number')
+            .single();
+
+        if (data) setWhatsappNumber(data.value);
+    };
+
+    const handleUpdateWhatsApp = async () => {
+        setIsSavingSettings(true);
+        const { error } = await supabase
+            .from('site_settings')
+            .update({ value: whatsappNumber })
+            .eq('key', 'whatsapp_number');
+
+        if (error) {
+            alert('Error updating WhatsApp number');
+        } else {
+            alert('WhatsApp number updated successfully!');
+        }
+        setIsSavingSettings(false);
+    };
 
     const fetchProducts = async () => {
         setLoading(true);
@@ -201,6 +229,37 @@ const AdminDashboard = () => {
                         >
                             <LogOut size={20} /> Logout
                         </button>
+                    </div>
+                </div>
+
+                {/* Site Settings Section */}
+                <div className="bg-white rounded-3xl p-6 md:p-8 shadow-sm border border-slate-100 mb-12">
+                    <div className="flex flex-col md:flex-row items-center justify-between gap-6">
+                        <div className="flex items-center gap-4">
+                            <div className="w-12 h-12 bg-green-50 rounded-2xl flex items-center justify-center text-green-600">
+                                <span className="material-symbols-outlined text-2xl">contact_support</span>
+                            </div>
+                            <div>
+                                <h2 className="text-xl font-bold text-slate-900">WhatsApp Configuration</h2>
+                                <p className="text-sm text-slate-500 text-left">Set the primary number for customer inquiries and orders</p>
+                            </div>
+                        </div>
+                        <div className="flex w-full md:w-auto gap-3">
+                            <input
+                                type="text"
+                                value={whatsappNumber}
+                                onChange={(e) => setWhatsappNumber(e.target.value)}
+                                className="flex-1 md:w-64 px-4 py-3 rounded-xl border border-slate-200 focus:border-primary outline-none transition-all"
+                                placeholder="e.g. 919048911000"
+                            />
+                            <button
+                                onClick={handleUpdateWhatsApp}
+                                disabled={isSavingSettings}
+                                className="bg-slate-900 text-white px-6 py-3 rounded-xl font-bold hover:bg-slate-800 transition-all disabled:opacity-50 flex items-center gap-2"
+                            >
+                                {isSavingSettings ? <Loader2 size={18} className="animate-spin" /> : 'Update Number'}
+                            </button>
+                        </div>
                     </div>
                 </div>
 
