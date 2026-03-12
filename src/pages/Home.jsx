@@ -212,7 +212,15 @@ const Home = () => {
                                             <h3 className="text-xl md:text-2xl font-bold font-serif line-clamp-1">{prod.name}</h3>
                                             <span className="text-lg md:text-xl font-bold text-primary">{prod.price}</span>
                                         </div>
-                                        <p className="text-slate-500 text-sm mb-6 line-clamp-2 min-h-[40px] leading-relaxed">{prod.description}</p>
+                                        <p className="text-slate-500 text-sm mb-2 line-clamp-2 min-h-[40px] leading-relaxed">{prod.description}</p>
+                                        {(prod.length || prod.width) && (
+                                            <div className="flex items-center gap-2 text-xs font-bold text-slate-400 mb-4 uppercase tracking-wider">
+                                                <span className="material-symbols-outlined text-sm">straighten</span>
+                                                {prod.length && `${prod.length}`}
+                                                {prod.length && prod.width && ' x '}
+                                                {prod.width && `${prod.width}`}
+                                            </div>
+                                        )}
                                         <div className="flex gap-3">
                                             <button
                                                 onClick={() => addToCart(prod)}

@@ -84,6 +84,9 @@ export const CartProvider = ({ children }) => {
             message += `${index + 1}. *${item.name}*\n`;
             message += `   - ID: ${item.id}\n`;
             message += `   - Quantity: ${item.quantity}\n`;
+            if (item.length || item.width) {
+                message += `   - Size: ${item.length || ''}${item.length && item.width ? ' x ' : ''}${item.width || ''}\n`;
+            }
             message += `   - Price: ${item.price}\n\n`;
         });
 

@@ -21,7 +21,9 @@ const AdminDashboard = () => {
         cat: '',
         price: '',
         description: '',
-        img: ''
+        img: '',
+        length: '',
+        width: ''
     });
 
     useEffect(() => {
@@ -133,7 +135,7 @@ const AdminDashboard = () => {
 
         setIsModalOpen(false);
         setEditingProduct(null);
-        setFormData({ name: '', cat: '', price: '', description: '', img: '' });
+        setFormData({ name: '', cat: '', price: '', description: '', img: '', length: '', width: '' });
         setImagePreview('');
         fetchProducts();
     };
@@ -206,7 +208,9 @@ const AdminDashboard = () => {
             cat: product.cat,
             price: product.price,
             description: product.description,
-            img: product.img
+            img: product.img,
+            length: product.length || '',
+            width: product.width || ''
         });
         setImagePreview(product.img);
         setIsModalOpen(true);
@@ -225,7 +229,7 @@ const AdminDashboard = () => {
                         <button
                             onClick={() => {
                                 setEditingProduct(null);
-                                setFormData({ name: '', cat: '', price: '', description: '', img: '' });
+                                setFormData({ name: '', cat: '', price: '', description: '', img: '', length: '', width: '' });
                                 setImagePreview('');
                                 setIsModalOpen(true);
                             }}
@@ -403,6 +407,28 @@ const AdminDashboard = () => {
                                             onChange={(e) => setFormData({ ...formData, price: e.target.value })}
                                             className="w-full px-4 py-3 rounded-xl border border-slate-200 focus:border-primary outline-none transition-all"
                                             placeholder="e.g. ₹4,500"
+                                        />
+                                    </div>
+                                    <div className="space-y-2">
+                                        <label className="text-sm font-bold text-slate-700 flex items-center gap-2">
+                                            <span className="material-symbols-outlined text-[16px]">straighten</span> Length
+                                        </label>
+                                        <input
+                                            value={formData.length}
+                                            onChange={(e) => setFormData({ ...formData, length: e.target.value })}
+                                            className="w-full px-4 py-3 rounded-xl border border-slate-200 focus:border-primary outline-none transition-all"
+                                            placeholder="e.g. 6 ft"
+                                        />
+                                    </div>
+                                    <div className="space-y-2">
+                                        <label className="text-sm font-bold text-slate-700 flex items-center gap-2">
+                                            <span className="material-symbols-outlined text-[16px]">straighten</span> Width
+                                        </label>
+                                        <input
+                                            value={formData.width}
+                                            onChange={(e) => setFormData({ ...formData, width: e.target.value })}
+                                            className="w-full px-4 py-3 rounded-xl border border-slate-200 focus:border-primary outline-none transition-all"
+                                            placeholder="e.g. 4 ft"
                                         />
                                     </div>
                                     <div className="space-y-2">

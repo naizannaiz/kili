@@ -104,7 +104,15 @@ const Products = () => {
                                             <h3 className="font-serif text-xl md:text-2xl text-slate-900 line-clamp-1">{product.name}</h3>
                                             <p className="text-lg md:text-xl font-bold text-primary">{product.price}</p>
                                         </div>
-                                        <p className="text-sm text-slate-500 mb-6 line-clamp-2 min-h-[40px] leading-relaxed">{product.description}</p>
+                                        <p className="text-sm text-slate-500 mb-2 line-clamp-2 min-h-[40px] leading-relaxed">{product.description}</p>
+                                        {(product.length || product.width) && (
+                                            <div className="flex items-center gap-2 text-xs font-bold text-slate-400 mb-4 uppercase tracking-wider">
+                                                <span className="material-symbols-outlined text-sm">straighten</span>
+                                                {product.length && `${product.length}`}
+                                                {product.length && product.width && ' x '}
+                                                {product.width && `${product.width}`}
+                                            </div>
+                                        )}
                                         <button
                                             onClick={(e) => {
                                                 e.stopPropagation();
