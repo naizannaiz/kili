@@ -15,18 +15,20 @@ values ('whatsapp_number', '919048911000')
 on conflict (key) do update set value = excluded.value;
 
 -- 3. Allow public read access to settings
+drop policy if exists "Allow Public Read Access" on public.site_settings;
 create policy "Allow Public Read Access"
 on public.site_settings for select
 using ( true );
 
 -- 4. Allow authenticated users (admins) to update settings
--- Assuming you have a standard auth setup
+drop policy if exists "Allow Authenticated Update Access" on public.site_settings;
 create policy "Allow Authenticated Update Access"
 on public.site_settings for update
 using ( auth.role() = 'authenticated' )
 with check ( auth.role() = 'authenticated' );
 
 -- 5. Allow authenticated users (admins) to insert settings
+drop policy if exists "Allow Authenticated Insert Access" on public.site_settings;
 create policy "Allow Authenticated Insert Access"
 on public.site_settings for insert
 with check ( auth.role() = 'authenticated' );
