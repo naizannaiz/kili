@@ -14,7 +14,7 @@ const Craft = () => {
             <section className="pt-32 pb-20 bg-[#FDFBF7]">
                 <div className="container text-center max-w-4xl">
                     <span className="text-primary font-bold tracking-widest uppercase text-xs">Heritage Excellence</span>
-                    <h1 className="text-5xl md:text-7xl mt-4 mb-8 text-[#4A0404] leading-tight font-serif">
+                    <h1 className="text-4xl sm:text-5xl md:text-7xl mt-4 mb-8 text-[#4A0404] leading-tight font-serif">
                         The Art of the Kora
                     </h1>
                     <p className="text-lg md:text-xl text-slate-700 leading-relaxed font-light">
@@ -33,7 +33,7 @@ const Craft = () => {
                         <div className="inline-block p-3 bg-primary/5 rounded-full mb-4">
                             <span className="material-symbols-outlined text-primary">potted_plant</span>
                         </div>
-                        <h2 className="text-4xl text-primary mb-6 font-serif">1. The Harvest</h2>
+                        <h2 className="text-3xl md:text-4xl text-primary mb-6 font-serif">1. The Harvest</h2>
                         <p className="text-lg text-slate-700 leading-relaxed mb-6">
                             The journey begins at the lush riverside, where the wild Kora grass grows tall and resilient. Our artisans carefully select only the finest strands, ensuring the raw material possesses the strength and flexibility required for fine weaving.
                         </p>
@@ -59,7 +59,7 @@ const Craft = () => {
             <section className="py-20 bg-[#FAF9F6] border-y border-terracotta/20">
                 <div className="container">
                     <div className="text-center mb-16 max-w-2xl mx-auto">
-                        <h2 className="text-4xl text-[#4A0404] mb-4 font-serif">2. Sun-Kissed Seasoning</h2>
+                        <h2 className="text-3xl md:text-4xl text-[#4A0404] mb-4 font-serif">2. Sun-Kissed Seasoning</h2>
                         <p className="text-slate-700">Transformation from raw fiber to refined strand through the power of the tropical sun.</p>
                     </div>
                     <div className="grid md:grid-cols-3 gap-8">
@@ -118,7 +118,7 @@ const Craft = () => {
                         </div>
                     </div>
                     <div>
-                        <h2 className="text-4xl mb-8 border-l-4 border-primary pl-6 font-serif">3. Infusing Color</h2>
+                        <h2 className="text-3xl md:text-4xl mb-8 border-l-4 border-primary pl-6 font-serif">3. Infusing Color</h2>
                         <p className="text-lg text-slate-200 leading-relaxed mb-6 font-light">
                             Our mats are defined by their deep, earthy tones. We use organic dyes derived from local seeds, bark, and minerals. Bundles of fiber are boiled in these natural pigments to achieve rich, lasting maroon and jet-black hues that never fade.
                         </p>
@@ -144,7 +144,7 @@ const Craft = () => {
             <section className="py-24 bg-[#FDFBF7]">
                 <div className="container flex flex-col items-center">
                     <div className="text-center mb-16 max-w-3xl">
-                        <h2 className="text-4xl md:text-5xl text-[#4A0404] mb-6 font-serif">4. The Master's Loom</h2>
+                        <h2 className="text-3xl md:text-5xl text-[#4A0404] mb-6 font-serif">4. The Master's Loom</h2>
                         <p className="text-slate-700 text-lg">
                             The final stage is where the magic happens. Using a traditional floor loom, our master weavers sit in quiet focus, rhythmically interlacing the colored strands into intricate geometric patterns.
                         </p>

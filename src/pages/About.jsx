@@ -15,7 +15,7 @@ const About = () => {
                     <div className="grid lg:grid-cols-2 gap-16 items-center">
                         <div>
                             <span className="text-secondary font-bold tracking-[0.2em] uppercase text-xs">Our Heritage</span>
-                            <h1 className="text-5xl md:text-7xl mt-6 mb-8 text-primary font-serif leading-tight">
+                            <h1 className="text-4xl sm:text-5xl md:text-7xl mt-6 mb-8 text-primary font-serif leading-tight">
                                 Established <br /><span className="italic">1953</span>
                             </h1>
                             <p className="text-xl text-slate-700 font-light leading-relaxed mb-10">
@@ -52,7 +52,7 @@ const About = () => {
             <section className="py-24 bg-bg-dark text-white overflow-hidden">
                 <div className="container relative">
                     <div className="max-w-3xl mx-auto text-center mb-20">
-                        <h2 className="text-4xl md:text-5xl font-serif font-bold mb-6">The Story of Revival</h2>
+                        <h2 className="text-3xl md:text-5xl font-serif font-bold mb-6">The Story of Revival</h2>
                         <div className="w-20 h-1 bg-secondary mx-auto mb-8"></div>
                         <p className="text-lg text-slate-300 font-light leading-relaxed">
                             By the 2010s, the craft was on the verge of disappearing. Only one elderly weaver, Prabhavathi, was still active when the cultural group Vayali stepped in to support documentation and training.

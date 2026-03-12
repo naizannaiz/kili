@@ -32,11 +32,11 @@ const Navbar = () => {
     return (
         <header className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${scrolled ? 'bg-white/80 dark:bg-background-dark/80 backdrop-blur-md border-b border-primary/10 py-3' : 'bg-transparent py-5'}`}>
             <div className="container flex items-center justify-between">
-                <Link to="/" className="flex items-center gap-3 group">
+                <Link to="/" className="flex items-center gap-2 md:gap-3 group">
                     <div className="text-primary">
-                        <span className="material-symbols-outlined text-3xl" style={{ fontVariationSettings: "'FILL' 1" }}>grid_guides</span>
+                        <span className="material-symbols-outlined text-2xl md:text-3xl" style={{ fontVariationSettings: "'FILL' 1" }}>grid_guides</span>
                     </div>
-                    <h2 className="text-xl font-bold font-serif tracking-tight text-text-dark">Killimangalam</h2>
+                    <h2 className="text-lg md:text-xl font-bold font-serif tracking-tight text-text-dark">Killimangalam</h2>
                 </Link>
 
                 {/* Desktop Nav */}
@@ -53,15 +53,15 @@ const Navbar = () => {
                     ))}
                 </nav>
 
-                <div className="flex items-center gap-6">
+                <div className="flex items-center gap-3 md:gap-6">
                     {/* Cart Icon */}
                     <button
                         onClick={() => setIsCartOpen(true)}
                         className="relative p-2 text-slate-600 hover:text-primary transition-colors"
                     >
-                        <ShoppingBag size={24} />
+                        <ShoppingBag size={22} className="md:w-6 md:h-6" />
                         {cartCount > 0 && (
-                            <span className="absolute -top-1 -right-1 bg-primary text-white text-[10px] font-bold w-5 h-5 flex items-center justify-center rounded-full border-2 border-white">
+                            <span className="absolute -top-0.5 -right-0.5 bg-primary text-white text-[9px] md:text-[10px] font-black w-4 h-4 md:w-5 md:h-5 flex items-center justify-center rounded-full border-2 border-white shadow-sm">
                                 {cartCount}
                             </span>
                         )}
@@ -72,8 +72,8 @@ const Navbar = () => {
                     </Link>
 
                     {/* Mobile Toggle */}
-                    <button className="md:hidden text-primary" onClick={() => setIsOpen(!isOpen)}>
-                        {isOpen ? <X size={28} /> : <Menu size={28} />}
+                    <button className="md:hidden text-primary p-1" onClick={() => setIsOpen(!isOpen)}>
+                        {isOpen ? <X size={24} /> : <Menu size={24} />}
                     </button>
                 </div>
             </div>

@@ -40,17 +40,17 @@ const Home = () => {
                         backgroundImage: "linear-gradient(to right, rgba(26, 13, 14, 0.9) 30%, rgba(26, 13, 14, 0.2) 100%), url('https://lh3.googleusercontent.com/aida-public/AB6AXuBysBgntm00iSkyCDT3GpJPSt99yQPmadbxiZlX44m33qaa9zXpbM26lFt4f895aVhvuZ3AGri4taSrPql0J5-c1eNw6EQV9Jk2e8cehoE7_fyz2Txi6J-k7F0VM1tGiF6LPsq9JNWOXGS1j-wvIZIflTWFsMnh17PuSb-rUHDWOTtW9mcVI2usLVr-idQTaISxzFHG4xiZvtIp_QQp5AJnBFzlXXIbwwvE2iZYDfbs_Ed-i3nUJgWvu_Wr5ThBosPc40xL9oG0cws')"
                     }}
                 ></div>
-                <div className="container relative z-10 w-full mt-12">
-                    <div className="max-w-2xl space-y-8">
-                        <span className="inline-block py-1 px-3 rounded bg-secondary/20 text-secondary text-xs font-bold uppercase tracking-[0.2em]">100-Year Heritage</span>
-                        <h1 className="text-white text-6xl md:text-8xl font-serif font-black leading-[1.1] tracking-tight">
+                <div className="container relative z-10 w-full mt-12 pb-12 md:pb-0">
+                    <div className="max-w-2xl space-y-6 md:space-y-8">
+                        <span className="inline-block py-1 px-3 rounded bg-secondary/20 text-secondary text-[10px] md:text-xs font-bold uppercase tracking-[0.2em]">100-Year Heritage</span>
+                        <h1 className="text-white text-4xl sm:text-6xl md:text-8xl font-serif font-black leading-[1.1] tracking-tight">
                             Weaving Heritage into <span className="text-primary italic">Luxury</span>
                         </h1>
-                        <p className="text-slate-300 text-lg md:text-xl font-light leading-relaxed max-w-lg">
+                        <p className="text-slate-300 text-base md:text-xl font-light leading-relaxed max-w-lg">
                             A century of traditional craftsmanship and eco-friendly elegance woven into every strand of Killimangalam Kora grass.
                         </p>
-                        <div className="flex flex-wrap gap-4 pt-4">
-                            <Link to="/products" className="bg-primary hover:bg-primary/90 text-white px-8 py-4 rounded-lg text-base font-bold transition-all flex items-center gap-2">
+                        <div className="flex flex-col sm:flex-row gap-4 pt-4">
+                            <Link to="/products" className="bg-primary hover:bg-primary/90 text-white px-8 py-4 rounded-lg text-base font-bold transition-all flex items-center justify-center gap-2">
                                 Explore the Collection <ChevronRight size={20} />
                             </Link>
                             <button className="border border-white/20 hover:border-secondary/50 text-white px-8 py-4 rounded-lg text-base font-bold transition-all bg-white/5 backdrop-blur-sm">
@@ -66,8 +66,8 @@ const Home = () => {
             </section>
 
             {/* Quick Access Heritage Bar */}
-            <section className="relative z-20 -mt-12 container">
-                <div className="bg-white/80 backdrop-blur-xl border border-white/20 shadow-2xl rounded-3xl p-2 grid grid-cols-2 md:grid-cols-4 gap-2">
+            <section className="relative z-20 -mt-10 md:-mt-12 container">
+                <div className="bg-white/80 backdrop-blur-xl border border-white/20 shadow-2xl rounded-2xl md:rounded-3xl p-2 grid grid-cols-2 md:grid-cols-4 gap-2">
                     {[
                         { title: 'Our Heritage', path: '/about', icon: 'history_edu' },
                         { title: 'The Craft', path: '/craft', icon: 'precision_manufacturing' },
@@ -77,14 +77,14 @@ const Home = () => {
                         <Link
                             key={idx}
                             to={item.path}
-                            className="group flex flex-col md:flex-row items-center justify-center gap-4 py-8 px-4 rounded-2xl hover:bg-primary/5 transition-all duration-500"
+                            className="group flex flex-col md:flex-row items-center justify-center gap-3 md:gap-4 py-6 md:py-8 px-4 rounded-xl md:rounded-2xl hover:bg-primary/5 transition-all duration-500"
                         >
-                            <div className="w-12 h-12 bg-primary/5 rounded-xl flex items-center justify-center group-hover:bg-primary group-hover:text-white transition-all duration-500">
-                                <span className="material-symbols-outlined text-2xl">{item.icon}</span>
+                            <div className="w-10 h-10 md:w-12 md:h-12 bg-primary/5 rounded-lg md:rounded-xl flex items-center justify-center group-hover:bg-primary group-hover:text-white transition-all duration-500">
+                                <span className="material-symbols-outlined text-xl md:text-2xl">{item.icon}</span>
                             </div>
                             <div className="text-center md:text-left">
-                                <div className="text-sm font-bold text-slate-900 group-hover:text-primary transition-colors">{item.title}</div>
-                                <div className="text-[10px] uppercase tracking-widest text-slate-400 font-bold group-hover:text-slate-600">Explore</div>
+                                <div className="text-xs md:text-sm font-bold text-slate-900 group-hover:text-primary transition-colors">{item.title}</div>
+                                <div className="text-[9px] md:text-[10px] uppercase tracking-widest text-slate-400 font-bold group-hover:text-slate-600">Explore</div>
                             </div>
                         </Link>
                     ))}
@@ -190,27 +190,29 @@ const Home = () => {
                             <Loader2 size={32} className="animate-spin text-primary" />
                         </div>
                     ) : featuredProducts.length > 0 ? (
-                        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 md:gap-10">
                             {featuredProducts.map((prod, i) => (
-                                <div key={prod.id} className="bg-white border border-slate-200 rounded-xl overflow-hidden shadow-lg shadow-black/5 group">
-                                    <div className="aspect-square relative overflow-hidden">
-                                        <img src={prod.img} alt={prod.name} className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" />
-                                        {i === 0 && <div className="absolute top-4 right-4 bg-white/90 backdrop-blur-md px-3 py-1 rounded text-xs font-bold uppercase tracking-wider text-primary">Latest Arrival</div>}
+                                <div key={prod.id} className="bg-white border border-slate-100 rounded-2xl overflow-hidden shadow-sm hover:shadow-xl transition-all duration-500 group">
+                                    <div className="aspect-[4/5] relative overflow-hidden bg-slate-50">
+                                        <img src={prod.img} alt={prod.name} className="w-full h-full object-cover transition-transform duration-[1.5s] group-hover:scale-110" />
+                                        <div className="absolute top-4 left-4">
+                                            <span className="bg-white/90 backdrop-blur-md px-3 py-1.5 rounded-lg text-[10px] font-bold uppercase tracking-wider text-primary border border-primary/10">
+                                                {prod.cat}
+                                            </span>
+                                        </div>
                                     </div>
                                     <div className="p-6">
-                                        <div className="flex justify-between items-start mb-2">
-                                            <h3 className="text-xl font-bold font-serif">{prod.name}</h3>
-                                            <span className="text-primary font-bold">{prod.price}</span>
+                                        <div className="flex justify-between items-start mb-3">
+                                            <h3 className="text-xl md:text-2xl font-bold font-serif line-clamp-1">{prod.name}</h3>
+                                            <span className="text-lg md:text-xl font-bold text-primary">{prod.price}</span>
                                         </div>
-                                        <p className="text-slate-500 text-sm mb-6 line-clamp-2">{prod.description}</p>
+                                        <p className="text-slate-500 text-sm mb-6 line-clamp-2 min-h-[40px] leading-relaxed">{prod.description}</p>
                                         <div className="flex gap-3">
-                                            <Link to="/products" className="flex-1 text-center py-3 border border-slate-200 text-slate-600 font-bold rounded-lg hover:bg-slate-50 transition-colors">
-                                                Details
-                                            </Link>
                                             <button
                                                 onClick={() => addToCart(prod)}
-                                                className="flex-1 bg-primary text-white font-bold py-3 rounded-lg hover:bg-primary/90 transition-all shadow-md active:scale-95"
+                                                className="flex-1 bg-primary text-white font-bold py-4 rounded-xl hover:bg-primary/90 transition-all shadow-md active:scale-[0.98] flex items-center justify-center gap-2 group/btn"
                                             >
+                                                <ShoppingBag size={18} className="transition-transform group-hover/btn:-rotate-12" />
                                                 Add to Cart
                                             </button>
                                         </div>

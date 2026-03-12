@@ -11,8 +11,8 @@ const Impact = () => {
         >
             <section className="pt-32 pb-20 bg-white">
                 <div className="container text-center max-w-3xl">
-                    <span className="text-secondary font-bold tracking-widest uppercase text-xs">A Greater Purpose</span>
-                    <h1 className="text-5xl md:text-7xl mt-4 mb-8 text-primary font-serif">Weaving Change</h1>
+                    <span className="text-secondary font-bold tracking-widest uppercase text-[10px] md:text-xs">A Greater Purpose</span>
+                    <h1 className="text-4xl md:text-7xl mt-4 mb-8 text-primary font-serif">Weaving Change</h1>
                     <p className="text-lg md:text-xl text-slate-600 font-light leading-relaxed">
                         Our work extends beyond the loom; it is about creating a sustainable future for our community and restoring the dignity of local artisanal labor.
                     </p>
@@ -52,7 +52,7 @@ const Impact = () => {
             <section className="py-24 bg-bg-dark text-white overflow-hidden">
                 <div className="container flex flex-col md:flex-row gap-20 items-center">
                     <div className="flex-1">
-                        <h2 className="text-5xl font-serif font-bold mb-8">Global Footprint</h2>
+                        <h2 className="text-3xl md:text-5xl font-serif font-bold mb-8">Global Footprint</h2>
                         <p className="text-slate-400 mb-8 leading-relaxed text-lg font-light">
                             From our small village in Kerala, our mats have travelled to homes in over 20 countries. Each mat carries with it a piece of our culture and a commitment to sustainable living.
                         </p>
