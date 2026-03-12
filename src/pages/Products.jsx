@@ -85,11 +85,13 @@ const Products = () => {
                                     key={product.id}
                                     className="bg-white border border-slate-100 rounded-2xl overflow-hidden shadow-sm hover:shadow-xl transition-all duration-500 group"
                                 >
-                                    <div className="relative overflow-hidden aspect-[4/5] bg-slate-50">
+                                    <div className="relative overflow-hidden aspect-[4/5] bg-slate-50 image-pulse">
                                         <img
                                             src={product.img}
                                             alt={product.name}
+                                            loading="lazy"
                                             className="w-full h-full object-cover transition-transform duration-[1.5s] group-hover:scale-110"
+                                            onLoad={(e) => e.target.parentElement.classList.remove('image-pulse')}
                                         />
                                         <div className="absolute top-4 left-4">
                                             <span className="bg-white/90 backdrop-blur-md px-3 py-1.5 rounded-lg text-[10px] font-bold uppercase tracking-wider text-primary border border-primary/10">

@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
+import imageCompression from 'browser-image-compression';
 import { supabase } from '../utils/supabase';
 import { useAuth } from '../context/AuthContext';
 import { Plus, Edit2, Trash2, LogOut, Package, Image as ImageIcon, Tag, IndianRupee, Upload, X, Loader2 } from 'lucide-react';
@@ -76,27 +77,43 @@ const AdminDashboard = () => {
         reader.readAsDataURL(file);
 
         setUploading(true);
-        const fileExt = file.name.split('.').pop();
-        const fileName = `${Math.random()}.${fileExt}`;
-        const filePath = `${fileName}`;
+        try {
+            // Compress image before upload
+            const options = {
+                maxSizeMB: 0.8,
+                maxWidthOrHeight: 1200,
+                useWebWorker: true,
+                initialQuality: 0.8
+            };
 
-        const { error: uploadError, data } = await supabase.storage
-            .from('product-images')
-            .upload(filePath, file);
+            const compressedFile = await imageCompression(file, options);
 
-        if (uploadError) {
-            console.error('Supabase upload error:', uploadError);
-            alert(`Error uploading image: ${uploadError.message}`);
+            const fileExt = compressedFile.name.split('.').pop() || 'jpg';
+            const fileName = `${Math.random()}.${fileExt}`;
+            const filePath = `${fileName}`;
+
+            const { error: uploadError, data } = await supabase.storage
+                .from('product-images')
+                .upload(filePath, compressedFile);
+
+            if (uploadError) {
+                console.error('Supabase upload error:', uploadError);
+                alert(`Error uploading image: ${uploadError.message}`);
+                setUploading(false);
+                return;
+            }
+
+            const { data: { publicUrl } } = supabase.storage
+                .from('product-images')
+                .getPublicUrl(filePath);
+
+            setFormData({ ...formData, img: publicUrl });
+        } catch (error) {
+            console.error('Compression error:', error);
+            alert('Failed to process image');
+        } finally {
             setUploading(false);
-            return;
         }
-
-        const { data: { publicUrl } } = supabase.storage
-            .from('product-images')
-            .getPublicUrl(filePath);
-
-        setFormData({ ...formData, img: publicUrl });
-        setUploading(false);
     };
 
     const handleSubmit = async (e) => {
