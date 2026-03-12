@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { Link } from 'react-router-dom';
-import { ChevronRight, ArrowRight, Loader2 } from 'lucide-react';
+import { ChevronRight, ArrowRight, Loader2, ShoppingBag } from 'lucide-react';
 import { supabase } from '../utils/supabase';
 import { useCart } from '../context/CartContext';
 

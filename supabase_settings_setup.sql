@@ -12,7 +12,7 @@ create table if not exists public.site_settings (
 -- 2. Insert the initial WhatsApp number
 insert into public.site_settings (key, value)
 values ('whatsapp_number', '919048911000')
-on conflict (key) do do update set value = excluded.value;
+on conflict (key) do update set value = excluded.value;
 
 -- 3. Allow public read access to settings
 create policy "Allow Public Read Access"
