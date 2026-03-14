@@ -133,7 +133,7 @@ const Home = () => {
                                 id: '02',
                                 title: 'Vibrant Dyeing',
                                 desc: 'Using high-quality synthetic dyes to achieve brilliant, long-lasting colors that resist fading over time.',
-                                img: '/src/assets/chemical_dyeing_process.png'
+                                img: 'https://images.unsplash.com/photo-1620619767323-b95a89183081?auto=format&fit=crop&q=80'
                             },
                             {
                                 id: '03',
