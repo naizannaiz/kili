@@ -15,7 +15,7 @@ const Visit = () => {
                         <span className="text-primary font-bold tracking-widest uppercase text-xs">Craft Tourism</span>
                         <h1 className="text-5xl md:text-7xl mt-4 mb-8 text-primary font-serif">Visit Killimangalam</h1>
                         <p className="text-lg text-slate-600 font-light leading-relaxed">
-                            Experience the rhythm of the looms and the warmth of our community. We welcome visitors to witness the creation of authentic Kora grass heritage.
+                            Experience the rhythm of the looms and the warmth of our community. We welcome visitors to witness the creation of authentic മുത്തങ്ങ പുല്ല് heritage.
                         </p>
                     </div>
 

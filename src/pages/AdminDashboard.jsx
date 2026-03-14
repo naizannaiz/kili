@@ -7,11 +7,14 @@ import { Plus, Edit2, Trash2, LogOut, Package, Image as ImageIcon, Tag, IndianRu
 
 const AdminDashboard = () => {
     const { logout } = useAuth();
+    const [activeTab, setActiveTab] = useState('products');
     const [products, setProducts] = useState([]);
+    const [achievements, setAchievements] = useState([]);
     const [loading, setLoading] = useState(true);
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [isFlushModalOpen, setIsFlushModalOpen] = useState(false);
     const [editingProduct, setEditingProduct] = useState(null);
+    const [editingAchievement, setEditingAchievement] = useState(null);
     const [uploading, setUploading] = useState(false);
     const [imagePreview, setImagePreview] = useState('');
     const [whatsappNumber, setWhatsappNumber] = useState('');
@@ -20,6 +23,7 @@ const AdminDashboard = () => {
         name: '',
         cat: '',
         price: '',
+        product_number: '',
         description: '',
         img: '',
         length: '',
@@ -28,6 +32,7 @@ const AdminDashboard = () => {
 
     useEffect(() => {
         fetchProducts();
+        fetchAchievements();
         fetchSettings();
     }, []);
 
@@ -67,6 +72,17 @@ const AdminDashboard = () => {
         setLoading(false);
     };
 
+    const fetchAchievements = async () => {
+        setLoading(true);
+        const { data, error } = await supabase
+            .from('achievements')
+            .select('*')
+            .order('created_at', { ascending: false });
+
+        if (data) setAchievements(data);
+        setLoading(false);
+    };
+
     const handleImageUpload = async (e) => {
         const file = e.target.files[0];
         if (!file) return;
@@ -95,7 +111,7 @@ const AdminDashboard = () => {
             const filePath = `${fileName}`;
 
             const { error: uploadError, data } = await supabase.storage
-                .from('product-images')
+                .from(activeTab === 'products' ? 'product-images' : 'achievement-images')
                 .upload(filePath, compressedFile);
 
             if (uploadError) {
@@ -106,7 +122,7 @@ const AdminDashboard = () => {
             }
 
             const { data: { publicUrl } } = supabase.storage
-                .from('product-images')
+                .from(activeTab === 'products' ? 'product-images' : 'achievement-images')
                 .getPublicUrl(filePath);
 
             setFormData({ ...formData, img: publicUrl });
@@ -122,22 +138,43 @@ const AdminDashboard = () => {
         e.preventDefault();
         setLoading(true);
 
-        if (editingProduct) {
-            const { error } = await supabase
-                .from('products')
-                .update(formData)
-                .eq('id', editingProduct.id);
+        if (activeTab === 'products') {
+            if (editingProduct) {
+                await supabase
+                    .from('products')
+                    .update(formData)
+                    .eq('id', editingProduct.id);
+            } else {
+                await supabase
+                    .from('products')
+                    .insert([formData]);
+            }
+            fetchProducts();
         } else {
-            const { error } = await supabase
-                .from('products')
-                .insert([formData]);
+            const achievementData = {
+                title: formData.name,
+                description: formData.description,
+                image_url: formData.img
+            };
+            if (editingAchievement) {
+                await supabase
+                    .from('achievements')
+                    .update(achievementData)
+                    .eq('id', editingAchievement.id);
+            } else {
+                await supabase
+                    .from('achievements')
+                    .insert([achievementData]);
+            }
+            fetchAchievements();
         }
 
         setIsModalOpen(false);
         setEditingProduct(null);
-        setFormData({ name: '', cat: '', price: '', description: '', img: '', length: '', width: '' });
+        setEditingAchievement(null);
+        setFormData({ name: '', cat: '', price: '', product_number: '', description: '', img: '', length: '', width: '' });
         setImagePreview('');
-        fetchProducts();
+        setLoading(false);
     };
 
     const handleFlushStorage = async () => {
@@ -174,45 +211,67 @@ const AdminDashboard = () => {
         }
     };
 
-    const handleDelete = async (product) => {
-        if (window.confirm(`Are you sure you want to delete "${product.name}"?`)) {
+    const handleDelete = async (item) => {
+        const table = activeTab === 'products' ? 'products' : 'achievements';
+        const bucket = activeTab === 'products' ? 'product-images' : 'achievement-images';
+        const name = activeTab === 'products' ? item.name : item.title;
+        const img = activeTab === 'products' ? item.img : item.image_url;
+
+        if (window.confirm(`Are you sure you want to delete "${name}"?`)) {
             setLoading(true);
 
             // Delete image from storage if it exists
-            if (product.img && product.img.includes('product-images')) {
-                const fileName = product.img.split('/').pop();
+            if (img && img.includes(bucket)) {
+                const fileName = img.split('/').pop();
                 await supabase.storage
-                    .from('product-images')
+                    .from(bucket)
                     .remove([fileName]);
             }
 
-            // Delete product from database
+            // Delete from database
             const { error } = await supabase
-                .from('products')
+                .from(table)
                 .delete()
-                .eq('id', product.id);
+                .eq('id', item.id);
 
             if (error) {
-                alert('Error deleting product');
+                alert(`Error deleting ${activeTab === 'products' ? 'product' : 'achievement'}`);
             }
 
-            fetchProducts();
+            if (activeTab === 'products') fetchProducts();
+            else fetchAchievements();
             setLoading(false);
         }
     };
 
-    const openEditModal = (product) => {
-        setEditingProduct(product);
-        setFormData({
-            name: product.name,
-            cat: product.cat,
-            price: product.price,
-            description: product.description,
-            img: product.img,
-            length: product.length || '',
-            width: product.width || ''
-        });
-        setImagePreview(product.img);
+    const openEditModal = (item) => {
+        if (activeTab === 'products') {
+            setEditingProduct(item);
+            setFormData({
+                name: item.name,
+                cat: item.cat,
+                price: item.price,
+                product_number: item.product_number || '',
+                description: item.description,
+                img: item.img,
+                length: item.length || '',
+                width: item.width || ''
+            });
+            setImagePreview(item.img);
+        } else {
+            setEditingAchievement(item);
+            setFormData({
+                name: item.title,
+                cat: '',
+                price: '',
+                product_number: '',
+                description: item.description,
+                img: item.image_url,
+                length: '',
+                width: ''
+            });
+            setImagePreview(item.image_url);
+        }
         setIsModalOpen(true);
     };
 
@@ -225,17 +284,18 @@ const AdminDashboard = () => {
                         <h1 className="font-serif text-4xl text-slate-900 mb-2">Catalog Control</h1>
                         <p className="text-slate-500">Manage your heritage collection and inventory</p>
                     </div>
-                    <div className="flex gap-4">
+                    <div className="flex flex-wrap gap-4">
                         <button
                             onClick={() => {
                                 setEditingProduct(null);
-                                setFormData({ name: '', cat: '', price: '', description: '', img: '', length: '', width: '' });
+                                setEditingAchievement(null);
+                                setFormData({ name: '', cat: '', price: '', product_number: '', description: '', img: '', length: '', width: '' });
                                 setImagePreview('');
                                 setIsModalOpen(true);
                             }}
                             className="flex items-center gap-2 bg-primary text-white px-6 py-3 rounded-xl font-bold shadow-lg hover:bg-primary/90 transition-all"
                         >
-                            <Plus size={20} /> Add Product
+                            <Plus size={20} /> Add {activeTab === 'products' ? 'Product' : 'Achievement'}
                         </button>
                         <button
                             onClick={() => setIsFlushModalOpen(true)}
@@ -251,6 +311,22 @@ const AdminDashboard = () => {
                             <LogOut size={20} /> Logout
                         </button>
                     </div>
+                </div>
+
+                {/* Tab Switcher */}
+                <div className="flex gap-4 mb-8 bg-white p-2 rounded-2xl border border-slate-100 w-fit">
+                    <button
+                        onClick={() => setActiveTab('products')}
+                        className={`px-6 py-2.5 rounded-xl font-bold transition-all ${activeTab === 'products' ? 'bg-primary text-white shadow-md' : 'text-slate-500 hover:bg-slate-50'}`}
+                    >
+                        Products
+                    </button>
+                    <button
+                        onClick={() => setActiveTab('achievements')}
+                        className={`px-6 py-2.5 rounded-xl font-bold transition-all ${activeTab === 'achievements' ? 'bg-primary text-white shadow-md' : 'text-slate-500 hover:bg-slate-50'}`}
+                    >
+                        Achievements
+                    </button>
                 </div>
 
                 {/* Site Settings Section */}
@@ -285,47 +361,41 @@ const AdminDashboard = () => {
                 </div>
 
                 {/* Main Content */}
-                {loading && products.length === 0 ? (
+                {loading && (activeTab === 'products' ? products.length === 0 : achievements.length === 0) ? (
                     <div className="flex justify-center py-24">
                         <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary"></div>
                     </div>
-                ) : products.length === 0 ? (
+                ) : (activeTab === 'products' ? products.length === 0 : achievements.length === 0) ? (
                     <div className="bg-white rounded-3xl p-20 text-center border border-dashed border-slate-200">
                         <div className="w-20 h-20 bg-slate-50 rounded-full flex items-center justify-center mx-auto mb-6 text-slate-300">
-                            <Package size={40} />
+                            {activeTab === 'products' ? <Package size={40} /> : <ImageIcon size={40} />}
                         </div>
-                        <h2 className="text-2xl font-serif text-slate-900 mb-2">Your Catalog is Empty</h2>
-                        <p className="text-slate-500 mb-8 max-w-sm mx-auto">Start building your digital heritage collection by adding your first handwoven product.</p>
-                        <button
-                            onClick={() => setIsModalOpen(true)}
-                            className="bg-primary text-white px-8 py-4 rounded-xl font-bold hover:bg-primary/90 transition-all inline-flex items-center gap-2"
-                        >
-                            <Plus size={20} /> Add Your First Product
-                        </button>
+                        <h2 className="text-2xl font-serif text-slate-900 mb-2">No {activeTab} Found</h2>
+                        <p className="text-slate-500 mb-8 max-w-sm mx-auto">Start sharing your {activeTab} with your audience.</p>
                     </div>
                 ) : (
                     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                        {products.map((product) => (
+                        {(activeTab === 'products' ? products : achievements).map((item) => (
                             <motion.div
                                 layout
-                                key={product.id}
+                                key={item.id}
                                 className="bg-white rounded-2xl shadow-sm border border-slate-100 overflow-hidden group"
                             >
                                 <div className="aspect-square bg-slate-100 relative overflow-hidden">
                                     <img
-                                        src={product.img}
-                                        alt={product.name}
+                                        src={activeTab === 'products' ? item.img : item.image_url}
+                                        alt={activeTab === 'products' ? item.name : item.title}
                                         className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                                     />
                                     <div className="absolute top-4 right-4 flex gap-2">
                                         <button
-                                            onClick={() => openEditModal(product)}
+                                            onClick={() => openEditModal(item)}
                                             className="p-2 bg-white/90 backdrop-blur rounded-lg shadow-md text-slate-600 hover:text-primary transition-colors"
                                         >
                                             <Edit2 size={18} />
                                         </button>
                                         <button
-                                            onClick={() => handleDelete(product)}
+                                            onClick={() => handleDelete(item)}
                                             className="p-2 bg-white/90 backdrop-blur rounded-lg shadow-md text-slate-600 hover:text-red-500 transition-colors"
                                         >
                                             <Trash2 size={18} />
@@ -333,11 +403,18 @@ const AdminDashboard = () => {
                                     </div>
                                 </div>
                                 <div className="p-6">
-                                    <div className="text-xs font-bold text-primary uppercase tracking-widest mb-2">{product.cat}</div>
-                                    <h3 className="text-xl font-bold text-slate-900 mb-2">{product.name}</h3>
+                                    {activeTab === 'products' && <div className="text-xs font-bold text-primary uppercase tracking-widest mb-2">{item.cat}</div>}
+                                    <h3 className="text-xl font-bold text-slate-900 mb-2">
+                                        {activeTab === 'products' ? item.name : item.title}
+                                    </h3>
+                                    {activeTab === 'products' && (
+                                        <p className="text-xs text-slate-400 font-mono mb-2">
+                                            ID: {item.product_number || item.id}
+                                        </p>
+                                    )}
                                     <div className="flex justify-between items-center">
-                                        <p className="text-slate-500 text-sm line-clamp-1">{product.description}</p>
-                                        <p className="text-lg font-bold text-slate-900">{product.price}</p>
+                                        <p className="text-slate-500 text-sm line-clamp-1">{item.description}</p>
+                                        {activeTab === 'products' && <p className="text-lg font-bold text-slate-900">₹ {item.price}</p>}
                                     </div>
                                 </div>
                             </motion.div>
@@ -358,7 +435,10 @@ const AdminDashboard = () => {
                         >
                             <div className="p-8 border-b border-slate-100 flex justify-between items-center">
                                 <h2 className="text-2xl font-serif text-slate-900">
-                                    {editingProduct ? 'Edit Product' : 'Add New Product'}
+                                    {activeTab === 'products' 
+                                        ? (editingProduct ? 'Edit Product' : 'Add New Product')
+                                        : (editingAchievement ? 'Edit Achievement' : 'Add New Achievement')
+                                    }
                                 </h2>
                                 <button onClick={() => {
                                     setIsModalOpen(false);
@@ -371,69 +451,85 @@ const AdminDashboard = () => {
                                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                                     <div className="space-y-2">
                                         <label className="text-sm font-bold text-slate-700 flex items-center gap-2">
-                                            <Package size={16} /> Product Name
+                                            {activeTab === 'products' ? <Package size={16} /> : <ImageIcon size={16} />} 
+                                            {activeTab === 'products' ? 'Product Name' : 'Achievement Title'}
                                         </label>
                                         <input
                                             required
                                             value={formData.name}
                                             onChange={(e) => setFormData({ ...formData, name: e.target.value })}
                                             className="w-full px-4 py-3 rounded-xl border border-slate-200 focus:border-primary outline-none transition-all"
-                                            placeholder="e.g. Padma Yoga Mat"
+                                            placeholder={activeTab === 'products' ? "e.g. Padma Yoga Mat" : "e.g. UNESCO Recognition"}
                                         />
                                     </div>
+                                    {activeTab === 'products' && (
+                                        <>
+                                            <div className="space-y-2">
+                                                <label className="text-sm font-bold text-slate-700 flex items-center gap-2">
+                                                    <Tag size={16} /> Category
+                                                </label>
+                                                <select
+                                                    required
+                                                    value={formData.cat}
+                                                    onChange={(e) => setFormData({ ...formData, cat: e.target.value })}
+                                                    className="w-full px-4 py-3 rounded-xl border border-slate-200 focus:border-primary outline-none transition-all appearance-none bg-white"
+                                                >
+                                                    <option value="">Select Category</option>
+                                                    <option value="Yoga & Meditation">Yoga & Meditation</option>
+                                                    <option value="Home Decor">Home Decor</option>
+                                                    <option value="Custom Heirloom Mats">Custom Heirloom Mats</option>
+                                                </select>
+                                            </div>
+                                            <div className="space-y-2">
+                                                <label className="text-sm font-bold text-slate-700 flex items-center gap-2">
+                                                    <IndianRupee size={16} /> Price
+                                                </label>
+                                                <input
+                                                    required
+                                                    value={formData.price}
+                                                    onChange={(e) => setFormData({ ...formData, price: e.target.value })}
+                                                    className="w-full px-4 py-3 rounded-xl border border-slate-200 focus:border-primary outline-none transition-all"
+                                                    placeholder="e.g. 4,500"
+                                                />
+                                            </div>
+                                            <div className="space-y-2">
+                                                <label className="text-sm font-bold text-slate-700 flex items-center gap-2">
+                                                    <Tag size={16} /> Product Number
+                                                </label>
+                                                <input
+                                                    value={formData.product_number}
+                                                    onChange={(e) => setFormData({ ...formData, product_number: e.target.value })}
+                                                    className="w-full px-4 py-3 rounded-xl border border-slate-200 focus:border-primary outline-none transition-all"
+                                                    placeholder="e.g. PN-1001"
+                                                />
+                                            </div>
+                                            <div className="space-y-2">
+                                                <label className="text-sm font-bold text-slate-700 flex items-center gap-2">
+                                                    <span className="material-symbols-outlined text-[16px]">straighten</span> Length
+                                                </label>
+                                                <input
+                                                    value={formData.length}
+                                                    onChange={(e) => setFormData({ ...formData, length: e.target.value })}
+                                                    className="w-full px-4 py-3 rounded-xl border border-slate-200 focus:border-primary outline-none transition-all"
+                                                    placeholder="e.g. 6 ft"
+                                                />
+                                            </div>
+                                            <div className="space-y-2">
+                                                <label className="text-sm font-bold text-slate-700 flex items-center gap-2">
+                                                    <span className="material-symbols-outlined text-[16px]">straighten</span> Width
+                                                </label>
+                                                <input
+                                                    value={formData.width}
+                                                    onChange={(e) => setFormData({ ...formData, width: e.target.value })}
+                                                    className="w-full px-4 py-3 rounded-xl border border-slate-200 focus:border-primary outline-none transition-all"
+                                                    placeholder="e.g. 4 ft"
+                                                />
+                                            </div>
+                                        </>
+                                    )}
                                     <div className="space-y-2">
                                         <label className="text-sm font-bold text-slate-700 flex items-center gap-2">
-                                            <Tag size={16} /> Category
-                                        </label>
-                                        <select
-                                            required
-                                            value={formData.cat}
-                                            onChange={(e) => setFormData({ ...formData, cat: e.target.value })}
-                                            className="w-full px-4 py-3 rounded-xl border border-slate-200 focus:border-primary outline-none transition-all appearance-none bg-white"
-                                        >
-                                            <option value="">Select Category</option>
-                                            <option value="Yoga & Meditation">Yoga & Meditation</option>
-                                            <option value="Home Decor">Home Decor</option>
-                                            <option value="Custom Heirloom Mats">Custom Heirloom Mats</option>
-                                        </select>
-                                    </div>
-                                    <div className="space-y-2">
-                                        <label className="text-sm font-bold text-slate-700 flex items-center gap-2">
-                                            <IndianRupee size={16} /> Price
-                                        </label>
-                                        <input
-                                            required
-                                            value={formData.price}
-                                            onChange={(e) => setFormData({ ...formData, price: e.target.value })}
-                                            className="w-full px-4 py-3 rounded-xl border border-slate-200 focus:border-primary outline-none transition-all"
-                                            placeholder="e.g. ₹4,500"
-                                        />
-                                    </div>
-                                    <div className="space-y-2">
-                                        <label className="text-sm font-bold text-slate-700 flex items-center gap-2">
-                                            <span className="material-symbols-outlined text-[16px]">straighten</span> Length
-                                        </label>
-                                        <input
-                                            value={formData.length}
-                                            onChange={(e) => setFormData({ ...formData, length: e.target.value })}
-                                            className="w-full px-4 py-3 rounded-xl border border-slate-200 focus:border-primary outline-none transition-all"
-                                            placeholder="e.g. 6 ft"
-                                        />
-                                    </div>
-                                    <div className="space-y-2">
-                                        <label className="text-sm font-bold text-slate-700 flex items-center gap-2">
-                                            <span className="material-symbols-outlined text-[16px]">straighten</span> Width
-                                        </label>
-                                        <input
-                                            value={formData.width}
-                                            onChange={(e) => setFormData({ ...formData, width: e.target.value })}
-                                            className="w-full px-4 py-3 rounded-xl border border-slate-200 focus:border-primary outline-none transition-all"
-                                            placeholder="e.g. 4 ft"
-                                        />
-                                    </div>
-                                    <div className="space-y-2">
-                                        <label className="text-sm font-bold text-slate-700 flex items-center gap-2">
-                                            <ImageIcon size={16} /> Product Image
+                                            <ImageIcon size={16} /> {activeTab === 'products' ? 'Product Image' : 'Cover Image'}
                                         </label>
                                         <div className="relative">
                                             {imagePreview ? (
@@ -492,10 +588,13 @@ const AdminDashboard = () => {
                                     </button>
                                     <button
                                         type="submit"
-                                        disabled={loading}
+                                        disabled={loading || uploading}
                                         className="flex-1 bg-primary text-white font-bold py-4 rounded-xl shadow-lg hover:bg-primary/90 transition-all disabled:opacity-50"
                                     >
-                                        {loading ? 'Saving...' : editingProduct ? 'Update Product' : 'Add Product'}
+                                        {loading ? 'Saving...' : activeTab === 'products' 
+                                            ? (editingProduct ? 'Update Product' : 'Add Product')
+                                            : (editingAchievement ? 'Update Achievement' : 'Add Achievement')
+                                        }
                                     </button>
                                 </div>
                             </form>

@@ -12,6 +12,7 @@ import Products from './pages/Products';
 import Visit from './pages/Visit';
 import Impact from './pages/Impact';
 import Checkout from './pages/Checkout';
+import ProductDetails from './pages/ProductDetails';
 import AdminLogin from './pages/AdminLogin';
 import AdminDashboard from './pages/AdminDashboard';
 
@@ -41,6 +42,7 @@ function App() {
                                 <Route path="/visit" element={<Visit />} />
                                 <Route path="/impact" element={<Impact />} />
                                 <Route path="/checkout" element={<Checkout />} />
+                                <Route path="/product/:id" element={<ProductDetails />} />
 
                                 {/* Admin Routes */}
                                 <Route path="/admin" element={<Navigate to="/admin/dashboard" />} />

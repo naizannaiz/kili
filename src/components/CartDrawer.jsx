@@ -114,7 +114,7 @@ const CartDrawer = () => {
                                                         <Plus size={14} />
                                                     </button>
                                                 </div>
-                                                <p className="font-bold text-primary">{item.price}</p>
+                                                <p className="font-bold text-primary">₹ {item.price}</p>
                                             </div>
                                         </div>
                                     </div>

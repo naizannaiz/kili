@@ -82,7 +82,7 @@ export const CartProvider = ({ children }) => {
 
         cartItems.forEach((item, index) => {
             message += `${index + 1}. *${item.name}*\n`;
-            message += `   - ID: ${item.id}\n`;
+            message += `   - ID: ${item.product_number || item.id}\n`;
             message += `   - Quantity: ${item.quantity}\n`;
             if (item.length || item.width) {
                 message += `   - Size: ${item.length || ''}${item.length && item.width ? ' x ' : ''}${item.width || ''}\n`;

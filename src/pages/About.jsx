@@ -16,14 +16,14 @@ const About = () => {
                         <div>
                             <span className="text-secondary font-bold tracking-[0.2em] uppercase text-xs">Our Heritage</span>
                             <h1 className="text-4xl sm:text-5xl md:text-7xl mt-6 mb-8 text-primary font-serif leading-tight">
-                                Established <br /><span className="italic">1953</span>
+                                Established <br /><span className="italic">1987</span>
                             </h1>
                             <p className="text-xl text-slate-700 font-light leading-relaxed mb-10">
-                                The Killimangalam Kora Grass Mat Weaving Industrial Co-operative Society (No. 3312) is the heart of our village's heritage, preserving one of the oldest surviving village crafts in Kerala.
+                                The Killimangalam പുൽപായ Mat Weaving Industrial Co-operative Society (No. 3312) is the heart of our village's heritage, preserving one of the oldest surviving village crafts in Kerala.
                             </p>
                             <div className="flex gap-8">
                                 <div>
-                                    <h4 className="text-3xl font-bold text-primary">70+</h4>
+                                    <h4 className="text-3xl font-bold text-primary">35+</h4>
                                     <p className="text-xs uppercase tracking-widest text-slate-500 font-bold mt-1">Years of Legacy</p>
                                 </div>
                                 <div className="w-px h-12 bg-slate-200"></div>

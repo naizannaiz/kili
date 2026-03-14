@@ -15,7 +15,7 @@ const Craft = () => {
                 <div className="container text-center max-w-4xl">
                     <span className="text-primary font-bold tracking-widest uppercase text-xs">Heritage Excellence</span>
                     <h1 className="text-4xl sm:text-5xl md:text-7xl mt-4 mb-8 text-[#4A0404] leading-tight font-serif">
-                        The Art of the Kora
+                        The Art of മുത്തങ്ങ പുല്ല്
                     </h1>
                     <p className="text-lg md:text-xl text-slate-700 leading-relaxed font-light">
                         A 300-year-old tradition of artisanal weaving from the heart of Kerala. Each mat is a testament to the harmony between nature and human skill, passed down through generations of master weavers.
@@ -35,7 +35,7 @@ const Craft = () => {
                         </div>
                         <h2 className="text-3xl md:text-4xl text-primary mb-6 font-serif">1. The Harvest</h2>
                         <p className="text-lg text-slate-700 leading-relaxed mb-6">
-                            The journey begins at the lush riverside, where the wild Kora grass grows tall and resilient. Our artisans carefully select only the finest strands, ensuring the raw material possesses the strength and flexibility required for fine weaving.
+                            The journey begins at the lush riverside, where the wild മുത്തങ്ങ പുല്ല് grows tall and resilient. Our artisans carefully select only the finest strands, ensuring the raw material possesses the strength and flexibility required for fine weaving.
                         </p>
                         <div className="flex items-center gap-4 text-sm text-slate-500 italic">
                             <span className="material-symbols-outlined text-terracotta">eco</span>
@@ -120,20 +120,20 @@ const Craft = () => {
                     <div>
                         <h2 className="text-3xl md:text-4xl mb-8 border-l-4 border-primary pl-6 font-serif">3. Infusing Color</h2>
                         <p className="text-lg text-slate-200 leading-relaxed mb-6 font-light">
-                            Our mats are defined by their deep, earthy tones. We use organic dyes derived from local seeds, bark, and minerals. Bundles of fiber are boiled in these natural pigments to achieve rich, lasting maroon and jet-black hues that never fade.
+                            Our mats are defined by their vibrant, lasting hues. We use high-quality synthetic dyes to achieve brilliant colors. Bundles of fiber are submerged into these rich dye baths, ensuring deep, even color penetration that resists fading over time.
                         </p>
                         <ul className="space-y-4 text-slate-300">
                             <li className="flex items-center gap-3">
                                 <span className="material-symbols-outlined text-primary">check_circle</span>
-                                100% Non-toxic, eco-friendly pigments
+                                Brilliant, long-lasting colors
                             </li>
                             <li className="flex items-center gap-3">
                                 <span className="material-symbols-outlined text-primary">check_circle</span>
-                                Traditional slow-boil infusion technique
+                                Professional vat dyeing technique
                             </li>
                             <li className="flex items-center gap-3">
                                 <span className="material-symbols-outlined text-primary">check_circle</span>
-                                Unique color depth unmatched by synthetics
+                                Exceptional color consistency and depth
                             </li>
                         </ul>
                     </div>

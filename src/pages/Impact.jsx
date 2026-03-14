@@ -40,7 +40,7 @@ const Impact = () => {
                         </div>
                         <h3 className="text-3xl font-serif font-bold mb-6">Sustainability</h3>
                         <p className="text-slate-600 leading-relaxed mb-8">
-                            Kora grass is a renewable material that grows abundantly along riverbanks. The entire weaving process generates almost no waste or polluting by-products, making these mats a perfect alternative to plastic.
+                            മുത്തങ്ങ പുല്ല് is a renewable material that grows abundantly along riverbanks. The entire weaving process generates almost no waste or polluting by-products, making these mats a perfect alternative to plastic.
                         </p>
                         <p className="border-l-4 border-secondary pl-6 text-primary italic font-serif">
                             "Biodegradable, durable, and naturally cool."

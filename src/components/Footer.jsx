@@ -11,7 +11,7 @@ const Footer = () => {
                         <h2 className="text-white text-xl font-bold font-serif">Killimangalam</h2>
                     </div>
                     <p className="text-sm leading-relaxed">
-                        Preserving the timeless art of kora grass weaving for generations to come.
+                        Preserving the timeless art of മുത്തങ്ങ പുല്ല് weaving for generations to come.
                         Sustainable, artisanal, and authentically Indian.
                     </p>
                     <div className="flex gap-4">

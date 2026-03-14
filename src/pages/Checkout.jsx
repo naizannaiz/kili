@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { useCart } from '../context/CartContext';
 import { ShoppingBag, ChevronLeft, Send } from 'lucide-react';
@@ -8,6 +8,10 @@ const Checkout = () => {
     const { cartItems, getCartTotal, checkoutViaWhatsApp } = useCart();
     const navigate = useNavigate();
     const total = getCartTotal();
+
+    useEffect(() => {
+        window.scrollTo(0, 0);
+    }, []);
 
     if (cartItems.length === 0) {
         return (
@@ -59,10 +63,10 @@ const Checkout = () => {
                                             <div>
                                                 <div className="flex justify-between items-start mb-1">
                                                     <h3 className="text-xl font-bold text-slate-900">{item.name}</h3>
-                                                    <p className="font-bold text-primary">{item.price}</p>
+                                                    <p className="font-bold text-primary">₹ {item.price}</p>
                                                 </div>
                                                 <p className="text-sm text-slate-500 mb-2">{item.cat}</p>
-                                                <p className="text-xs text-slate-400">ID: {item.id}</p>
+                                                <p className="text-xs text-slate-400">ID: {item.product_number || item.id}</p>
                                             </div>
                                             <div className="flex justify-between items-center text-sm">
                                                 <span className="text-slate-600 font-medium">Quantity: {item.quantity}</span>

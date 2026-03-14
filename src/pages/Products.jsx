@@ -3,12 +3,14 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { supabase } from '../utils/supabase';
 import { useCart } from '../context/CartContext';
 import { ShoppingBag } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
 
 const Products = () => {
     const [filter, setFilter] = useState('All');
     const [products, setProducts] = useState([]);
     const [loading, setLoading] = useState(true);
     const { addToCart } = useCart();
+    const navigate = useNavigate();
 
     const categories = ['All', 'Yoga & Meditation', 'Home Decor', 'Custom Heirloom Mats'];
 
@@ -43,7 +45,7 @@ const Products = () => {
                 <div className="text-center mb-16">
                     <h1 className="font-serif text-4xl sm:text-5xl md:text-7xl text-primary mb-4">The Collection</h1>
                     <p className="text-slate-600 max-w-2xl mx-auto text-base sm:text-lg">
-                        Discover the intricate patterns and artisanal quality of authentic Kora Grass Mats, handwoven by the masters of Killimangalam.
+                        Discover the intricate patterns and artisanal quality of authentic മുത്തങ്ങ പുല്ല് Mats, handwoven by the masters of Killimangalam.
                     </p>
                 </div>
 
@@ -74,7 +76,7 @@ const Products = () => {
                         <p className="text-slate-500 mb-0 max-w-sm mx-auto">We are currently updating our digital catalog with new artisanal handwoven products.</p>
                     </div>
                 ) : (
-                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 md:gap-10 mb-24">
+                    <div className="grid grid-cols-2 lg:grid-cols-4 xl:grid-cols-5 gap-4 md:gap-6 mb-24">
                         <AnimatePresence mode="popLayout">
                             {filteredProducts.map(product => (
                                 <motion.div
@@ -83,46 +85,22 @@ const Products = () => {
                                     animate={{ opacity: 1, scale: 1 }}
                                     exit={{ opacity: 0, scale: 0.9 }}
                                     key={product.id}
-                                    className="bg-white border border-slate-100 rounded-2xl overflow-hidden shadow-sm hover:shadow-xl transition-all duration-500 group"
+                                    className="bg-white group cursor-pointer"
+                                    onClick={() => navigate(`/product/${product.id}`)}
                                 >
-                                    <div className="relative overflow-hidden aspect-[4/5] bg-slate-50 image-pulse">
+                                    <div className="relative overflow-hidden aspect-[3/4] bg-slate-50 mb-3 image-pulse rounded-lg">
                                         <img
                                             src={product.img}
                                             alt={product.name}
                                             loading="lazy"
-                                            className="w-full h-full object-cover transition-transform duration-[1.5s] group-hover:scale-110"
+                                            className="w-full h-full object-cover transition-transform duration-[1.5s] group-hover:scale-105"
                                             onLoad={(e) => e.target.parentElement.classList.remove('image-pulse')}
                                         />
-                                        <div className="absolute top-4 left-4">
-                                            <span className="bg-white/90 backdrop-blur-md px-3 py-1.5 rounded-lg text-[10px] font-bold uppercase tracking-wider text-primary border border-primary/10">
-                                                {product.cat}
-                                            </span>
-                                        </div>
                                     </div>
-                                    <div className="p-6">
-                                        <div className="flex justify-between items-start mb-3">
-                                            <h3 className="font-serif text-xl md:text-2xl text-slate-900 line-clamp-1">{product.name}</h3>
-                                            <p className="text-lg md:text-xl font-bold text-primary">{product.price}</p>
-                                        </div>
-                                        <p className="text-sm text-slate-500 mb-2 line-clamp-2 min-h-[40px] leading-relaxed">{product.description}</p>
-                                        {(product.length || product.width) && (
-                                            <div className="flex items-center gap-2 text-xs font-bold text-slate-400 mb-4 uppercase tracking-wider">
-                                                <span className="material-symbols-outlined text-sm">straighten</span>
-                                                {product.length && `${product.length}`}
-                                                {product.length && product.width && ' x '}
-                                                {product.width && `${product.width}`}
-                                            </div>
-                                        )}
-                                        <button
-                                            onClick={(e) => {
-                                                e.stopPropagation();
-                                                addToCart(product);
-                                            }}
-                                            className="w-full bg-primary text-white py-4 rounded-xl font-bold flex items-center justify-center gap-2 hover:bg-primary/90 transition-all shadow-md active:scale-[0.98] group/btn"
-                                        >
-                                            <ShoppingBag size={18} className="transition-transform group-hover/btn:-rotate-12" />
-                                            Add to Cart
-                                        </button>
+                                    <div className="px-1 text-center md:text-left">
+                                        <p className="text-[10px] sm:text-xs text-slate-400 font-bold uppercase tracking-wider mb-1 line-clamp-1">{product.cat}</p>
+                                        <h3 className="font-serif text-sm md:text-base text-slate-900 line-clamp-1 hover:text-primary transition-colors">{product.name}</h3>
+                                        <p className="text-sm md:text-base font-bold text-slate-900 mt-1">₹ {product.price}</p>
                                     </div>
                                 </motion.div>
                             ))}
@@ -155,7 +133,7 @@ const Products = () => {
                 <section className="bg-primary/5 rounded-2xl p-8 md:p-16 border border-primary/10">
                     <div className="text-center mb-12">
                         <h2 className="font-serif text-3xl md:text-4xl text-slate-900 mb-2">Preserving the Weave</h2>
-                        <p className="text-slate-600">Simple steps to ensure your Kora Grass mat lasts for generations.</p>
+                        <p className="text-slate-600">Simple steps to ensure your മുത്തങ്ങ പുല്ല് mat lasts for generations.</p>
                     </div>
                     <div className="grid grid-cols-1 md:grid-cols-3 gap-8 md:gap-16">
                         {[

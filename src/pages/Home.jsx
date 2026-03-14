@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { motion } from 'framer-motion';
+import { motion, AnimatePresence } from 'framer-motion';
 import { Link } from 'react-router-dom';
 import { ChevronRight, ArrowRight, Loader2, ShoppingBag } from 'lucide-react';
 import { supabase } from '../utils/supabase';
@@ -7,7 +7,10 @@ import { useCart } from '../context/CartContext';
 
 const Home = () => {
     const [featuredProducts, setFeaturedProducts] = useState([]);
+    const [achievements, setAchievements] = useState([]);
+    const [selectedAchievement, setSelectedAchievement] = useState(null);
     const [loading, setLoading] = useState(true);
+    const [loadingAchievements, setLoadingAchievements] = useState(true);
     const { addToCart } = useCart();
 
     useEffect(() => {
@@ -22,7 +25,21 @@ const Home = () => {
             if (data) setFeaturedProducts(data);
             setLoading(false);
         };
+
+        const fetchAchievements = async () => {
+            setLoadingAchievements(true);
+            const { data, error } = await supabase
+                .from('achievements')
+                .select('*')
+                .order('created_at', { ascending: false })
+                .limit(6);
+
+            if (data) setAchievements(data);
+            setLoadingAchievements(false);
+        };
+
         fetchFeatured();
+        fetchAchievements();
     }, []);
 
     return (
@@ -42,20 +59,25 @@ const Home = () => {
                 ></div>
                 <div className="container relative z-10 w-full mt-12 pb-12 md:pb-0">
                     <div className="max-w-2xl space-y-6 md:space-y-8">
-                        <span className="inline-block py-1 px-3 rounded bg-secondary/20 text-secondary text-[10px] md:text-xs font-bold uppercase tracking-[0.2em]">100-Year Heritage</span>
+                        <span className="inline-block py-1 px-3 rounded bg-secondary/20 text-secondary text-[10px] md:text-xs font-bold uppercase tracking-[0.2em]">35+ Year Heritage</span>
                         <h1 className="text-white text-4xl sm:text-6xl md:text-8xl font-serif font-black leading-[1.1] tracking-tight">
                             Weaving Heritage into <span className="text-primary italic">Luxury</span>
                         </h1>
                         <p className="text-slate-300 text-base md:text-xl font-light leading-relaxed max-w-lg">
-                            A century of traditional craftsmanship and eco-friendly elegance woven into every strand of Killimangalam Kora grass.
+                            Decades of traditional craftsmanship and eco-friendly elegance woven into every strand of Killimangalam പുൽപായ.
                         </p>
                         <div className="flex flex-col sm:flex-row gap-4 pt-4">
                             <Link to="/products" className="bg-primary hover:bg-primary/90 text-white px-8 py-4 rounded-lg text-base font-bold transition-all flex items-center justify-center gap-2">
                                 Explore the Collection <ChevronRight size={20} />
                             </Link>
-                            <button className="border border-white/20 hover:border-secondary/50 text-white px-8 py-4 rounded-lg text-base font-bold transition-all bg-white/5 backdrop-blur-sm">
+                            <a 
+                                href="https://youtu.be/Bqw7YCvbL2c?si=B7pFWu-2HFlDuJaM" 
+                                target="_blank" 
+                                rel="noopener noreferrer"
+                                className="border border-white/20 hover:border-secondary/50 text-white px-8 py-4 rounded-lg text-base font-bold transition-all bg-white/5 backdrop-blur-sm flex items-center justify-center"
+                            >
                                 Watch The Film
-                            </button>
+                            </a>
                         </div>
                     </div>
                 </div>
@@ -91,39 +113,6 @@ const Home = () => {
                 </div>
             </section>
 
-            {/* Heritage & Recognition Section */}
-            <section className="py-24 bg-[#FAF9F6] transition-colors">
-                <div className="container">
-                    <div className="grid lg:grid-cols-2 gap-16 items-center">
-                        <div className="space-y-6">
-                            <h2 className="text-4xl md:text-5xl font-serif font-bold text-slate-900 leading-tight">
-                                A Legacy of <br /><span className="text-secondary underline decoration-primary underline-offset-8">Global Excellence</span>
-                            </h2>
-                            <p className="text-slate-600 text-lg leading-relaxed">
-                                Our mats are not just flooring; they are recognized globally for their cultural significance and superior quality. Each piece is a testament to the intangible cultural heritage of the artisan communities in India.
-                            </p>
-                        </div>
-                        <div className="grid md:grid-cols-2 gap-6">
-                            {/* GI Tag */}
-                            <div className="p-8 rounded-xl border border-secondary/20 bg-white shadow-xl shadow-primary/5 transition-transform hover:-translate-y-2">
-                                <div className="text-primary mb-4">
-                                    <span className="material-symbols-outlined text-5xl" style={{ fontVariationSettings: "'FILL' 1" }}>verified</span>
-                                </div>
-                                <h3 className="text-xl font-bold mb-2">GI Tagged</h3>
-                                <p className="text-slate-500 text-sm">Authentic Geographical Indication certifying the unique origin and traditional methods of Killimangalam.</p>
-                            </div>
-                            {/* UNESCO */}
-                            <div className="p-8 rounded-xl border border-secondary/20 bg-white shadow-xl shadow-primary/5 transition-transform hover:-translate-y-2">
-                                <div className="text-primary mb-4">
-                                    <span className="material-symbols-outlined text-5xl" style={{ fontVariationSettings: "'FILL' 1" }}>award_star</span>
-                                </div>
-                                <h3 className="text-xl font-bold mb-2">UNESCO Honored</h3>
-                                <p className="text-slate-500 text-sm">Recognized for preserving intangible cultural heritage through exceptional artisanry and sustainability.</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </section>
 
             {/* Our Craft Section */}
             <section className="py-24 bg-bg-dark text-white">
@@ -137,14 +126,14 @@ const Home = () => {
                             {
                                 id: '01',
                                 title: 'Harvesting',
-                                desc: 'Sustainably gathering fine kora grass from the lush riverbanks, selected only during peak maturity.',
+                                desc: 'Sustainably gathering fine മുത്തങ്ങ പുല്ല് from the lush riverbanks, selected only during peak maturity.',
                                 img: 'https://lh3.googleusercontent.com/aida-public/AB6AXuBOZyal-re8e58YmQtAKnN6mqgoImcuvdVtUNYFFpXCY8HwhinjiImQcf4LUmnyz1kslWyTgyVrO3srbvp9EPkIvyq1kITfpS8XMV63G7qaw8Var1qjenE3WnO_uadOEModPuhcpq_6WcqInq072ZXoGd3i69EO6PBIYpA2OjUP0IF4ymml9cK2sE9MbLeA8B6cTiXfAtXuUXDS533TGOPcJDLYZVOvSjSBXTcxt7Mj6AHv-SgwMUbFccIFru0qcd-iua0y4-jb5GI'
                             },
                             {
                                 id: '02',
-                                title: 'Natural Dyeing',
-                                desc: 'Using vibrant, eco-friendly pigments derived from tree bark and medicinal plants to color each strand.',
-                                img: 'https://lh3.googleusercontent.com/aida-public/AB6AXuBQ1IBQ1UlBlTvITda-kg__ua91JAeICp8A3rZAB4tofr3IzBERFXw6dH_sd_zy1XLDwcnqAM8BLis5MdCw2K_nnypXgIgURhc6aSYtO106f-8jBeSUtVeh6tS6gf1ujg6TyDjubzGQ12kyNGlRJ3Ee491JoOh02TaL1AhjuDmhBPEEnj_9ABUWlS1wiY3-J4IcHyPaQM32L-WjQ2gJgkN63ovWesv1w2299CJvoFoH_DalxFiTRnXybqHJAtWBVGwvmFYZDOfs9Gs'
+                                title: 'Vibrant Dyeing',
+                                desc: 'Using high-quality synthetic dyes to achieve brilliant, long-lasting colors that resist fading over time.',
+                                img: '/src/assets/chemical_dyeing_process.png'
                             },
                             {
                                 id: '03',
@@ -210,7 +199,7 @@ const Home = () => {
                                     <div className="p-6">
                                         <div className="flex justify-between items-start mb-3">
                                             <h3 className="text-xl md:text-2xl font-bold font-serif line-clamp-1">{prod.name}</h3>
-                                            <span className="text-lg md:text-xl font-bold text-primary">{prod.price}</span>
+                                            <span className="text-lg md:text-xl font-bold text-primary">₹ {prod.price}</span>
                                         </div>
                                         <p className="text-slate-500 text-sm mb-2 line-clamp-2 min-h-[40px] leading-relaxed">{prod.description}</p>
                                         {(prod.length || prod.width) && (
@@ -242,7 +231,123 @@ const Home = () => {
                 </div>
             </section>
 
-            {/* Experience Section */}
+            {/* Achievements Section */}
+            <section className="py-24 bg-white overflow-hidden">
+                <div className="container">
+                    <div className="text-center mb-16 space-y-4">
+                        <span className="text-secondary font-bold tracking-widest text-xs uppercase italic">Milestones & Moments</span>
+                        <h2 className="text-4xl md:text-5xl font-serif font-bold text-slate-900">Our Achievements</h2>
+                        <p className="text-slate-500 max-w-2xl mx-auto">Celebrating the recognition of our craft, community impact, and the journey of Killimangalam മുത്തങ്ങ പുല്ല് Mats.</p>
+                    </div>
+
+                    {loadingAchievements ? (
+                        <div className="flex justify-center py-12">
+                            <Loader2 size={32} className="animate-spin text-primary" />
+                        </div>
+                    ) : achievements.length > 0 ? (
+                        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                            {achievements.map((achievement, idx) => (
+                                <motion.div
+                                    key={achievement.id}
+                                    initial={{ opacity: 0, y: 20 }}
+                                    whileInView={{ opacity: 1, y: 0 }}
+                                    viewport={{ once: true }}
+                                    transition={{ delay: idx * 0.1 }}
+                                    className="bg-[#FAF9F6] rounded-3xl overflow-hidden border border-slate-100 group hover:shadow-2xl hover:shadow-primary/5 transition-all duration-500 cursor-pointer flex flex-col"
+                                    onClick={() => setSelectedAchievement(achievement)}
+                                >
+                                    <div className="aspect-[4/3] relative overflow-hidden bg-slate-200">
+                                        <img
+                                            src={achievement.image_url}
+                                            alt={achievement.title}
+                                            loading="lazy"
+                                            className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-[2s]"
+                                        />
+                                        <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 flex items-end p-6">
+                                            <span className="text-white text-xs font-bold uppercase tracking-widest">
+                                                {new Date(achievement.created_at).toLocaleDateString('en-US', { month: 'long', year: 'numeric' })}
+                                            </span>
+                                        </div>
+                                    </div>
+                                    <div className="p-8">
+                                        <h3 className="text-xl md:text-2xl font-serif font-bold text-slate-900 mb-3 group-hover:text-primary transition-colors">
+                                            {achievement.title}
+                                        </h3>
+                                        <p className="text-slate-600 leading-relaxed text-sm line-clamp-3">
+                                            {achievement.description}
+                                        </p>
+                                        <div className="mt-6 pt-6 border-t border-slate-200/60 flex items-center justify-between">
+                                            <div className="flex items-center gap-2">
+                                                <div className="w-8 h-8 rounded-full bg-primary/10 flex items-center justify-center text-primary">
+                                                    <span className="material-symbols-outlined text-sm">stars</span>
+                                                </div>
+                                                <span className="text-[10px] font-bold uppercase tracking-tighter text-slate-400">Official Recognition</span>
+                                            </div>
+                                            <button className="text-primary hover:text-primary/80 transition-colors">
+                                                <ArrowRight size={18} />
+                                            </button>
+                                        </div>
+                                    </div>
+                                </motion.div>
+                            ))}
+                        </div>
+                    ) : (
+                        <div className="text-center py-20 bg-[#FAF9F6] rounded-3xl border border-dashed border-slate-200">
+                            <p className="text-slate-400 font-serif italic text-lg">Our legacy is being written. New milestones to be shared soon.</p>
+                        </div>
+                    )}
+                </div>
+            </section>
+
+            {/* Achievement Modal */}
+            <AnimatePresence>
+                {selectedAchievement && (
+                    <div className="fixed inset-0 z-[200] flex items-center justify-center p-4 sm:p-6 bg-slate-900/60 backdrop-blur-md">
+                        <motion.div
+                            initial={{ opacity: 0, scale: 0.95, y: 20 }}
+                            animate={{ opacity: 1, scale: 1, y: 0 }}
+                            exit={{ opacity: 0, scale: 0.95, y: 20 }}
+                            className="bg-white rounded-2xl md:rounded-3xl shadow-2xl w-full max-w-2xl overflow-hidden relative max-h-[90vh] md:max-h-[85vh] border border-slate-100 flex flex-col"
+                        >
+                            <button 
+                                onClick={() => setSelectedAchievement(null)}
+                                className="absolute top-3 right-3 md:top-4 md:right-4 z-10 p-2 bg-slate-50 hover:bg-red-50 text-slate-400 hover:text-red-500 rounded-full flex items-center justify-center transition-all shadow-sm"
+                            >
+                                <span className="material-symbols-outlined text-[20px] md:text-[24px]">close</span>
+                            </button>
+
+                            <div className="p-6 md:p-12 w-full flex flex-col overflow-y-auto">
+                                <div className="flex flex-col sm:flex-row justify-start sm:justify-between items-start sm:items-center gap-3 sm:gap-0 mb-6 mt-6 md:mt-0">
+                                    <div className="inline-flex items-center gap-2 bg-primary/10 px-3 py-1.5 rounded-full text-primary w-fit">
+                                        <span className="material-symbols-outlined text-sm">stars</span>
+                                        <span className="text-[10px] sm:text-xs font-bold uppercase tracking-widest">Official Recognition</span>
+                                    </div>
+                                    <span className="text-slate-400 text-[10px] sm:text-xs font-bold uppercase tracking-widest bg-slate-50 px-3 py-1.5 rounded-full w-fit">
+                                        {new Date(selectedAchievement.created_at).toLocaleDateString('en-US', { month: 'long', year: 'numeric' })}
+                                    </span>
+                                </div>
+                                
+                                <h2 className="text-2xl sm:text-3xl md:text-4xl font-serif font-bold text-slate-900 mb-6 md:mb-8 leading-tight">
+                                    {selectedAchievement.title}
+                                </h2>
+                                
+                                <div className="prose prose-slate prose-base md:prose-lg max-w-none">
+                                    <p className="text-slate-600 leading-relaxed whitespace-pre-wrap font-light">
+                                        {selectedAchievement.description}
+                                    </p>
+                                </div>
+                                
+                                <div className="mt-8 md:mt-12 pt-6 md:pt-8 border-t border-slate-100 text-center">
+                                    <p className="text-xs sm:text-sm font-serif italic text-slate-400">
+                                        Killimangalam പുൽപായ Mat Weaving Industrial Co-operative Society
+                                    </p>
+                                </div>
+                            </div>
+                        </motion.div>
+                    </div>
+                )}
+            </AnimatePresence>
+
             <section className="py-24 bg-[#f8f6f6]">
                 <div className="container">
                     <div className="bg-olive/10 rounded-3xl overflow-hidden grid lg:grid-cols-2">
