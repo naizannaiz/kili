@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom';
 import { ChevronRight, ArrowRight, Loader2, ShoppingBag } from 'lucide-react';
 import { supabase } from '../utils/supabase';
 import { useCart } from '../context/CartContext';
+import chemicalDyeingImg from '../assets/chemical_dyeing_process.png';
 
 const Home = () => {
     const [featuredProducts, setFeaturedProducts] = useState([]);
@@ -133,7 +134,7 @@ const Home = () => {
                                 id: '02',
                                 title: 'Vibrant Dyeing',
                                 desc: 'Using high-quality synthetic dyes to achieve brilliant, long-lasting colors that resist fading over time.',
-                                img: 'https://images.unsplash.com/photo-1620619767323-b95a89183081?auto=format&fit=crop&q=80'
+                                img: chemicalDyeingImg
                             },
                             {
                                 id: '03',
